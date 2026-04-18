@@ -95,6 +95,23 @@ markers = [
     "slow: tests that are slow",
 ]
 
+[tool.coverage.run]
+# pysam's Cython event loop clashes with coverage's C-level trace hooks on
+# Python 3.12+. Use the sys.monitoring-based core (PEP 669) instead — it's
+# faster and compatible with Cython extensions.
+core = "sysmon"
+source = ["src/agentic_genomics"]
+branch = false
+
+[tool.coverage.report]
+skip_empty = true
+exclude_lines = [
+    "pragma: no cover",
+    "raise NotImplementedError",
+    "if __name__ == \"__main__\":",
+    "if TYPE_CHECKING:",
+]
+
 [tool.mypy]
 python_version = "3.11"
 strict = false

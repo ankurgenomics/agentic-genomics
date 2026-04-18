@@ -52,3 +52,19 @@ def test_parse_multi_allelic(tmp_path):
     )
     variants = parse_vcf(vcf)
     assert {v.alt for v in variants} == {"T", "C"}
+
+
+def test_parse_demo_vcf_with_csq():
+    """End-to-end check against the real demo VCF shipped in data/samples/.
+
+    This guards against regressions in CSQ/VEP header parsing and verifies
+    the 7 curated variants are recognised with the expected gene symbols.
+    """
+    from pathlib import Path
+
+    demo_vcf = Path(__file__).resolve().parents[1] / "data" / "samples" / "proband_demo.vcf"
+    variants = parse_vcf(demo_vcf)
+    assert len(variants) == 7
+    genes = {v.gene for v in variants}
+    assert genes == {"BRCA1", "BRCA2", "CFTR", "LDLR", "SCN1A", "TP53", "DMD"}
+    assert all(v.consequence for v in variants)

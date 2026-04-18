@@ -39,7 +39,11 @@ def parse_vcf(vcf_path: str | Path, max_variants: int = 50) -> list[Variant]:
             csq_header = [x.strip() for x in raw.split("|")]
 
     variants: list[Variant] = []
-    for rec in vcf.fetch():
+    # Iterate records directly rather than via ``vcf.fetch()``: fetch requires
+    # a tabix/CSI index (only available for bgzipped VCFs), and on newer
+    # pysam/htslib it raises ``ValueError: Firing event 10`` for plain text
+    # VCFs. Direct iteration works for both plain and bgzipped files.
+    for rec in vcf:
         if rec.alts is None:
             continue
         for alt in rec.alts:
