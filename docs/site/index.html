@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ankur Sharma, PhD — Senior ML / Agentic AI Engineer</title>
+
+    <meta name="description" content="Senior ML & Agentic AI Engineer with a PhD and 8+ years building production multi-agent systems, ML-powered genomics pipelines, and cloud infrastructure at Illumina and Mirxes.">
+    <meta name="author" content="Ankur Sharma">
+    <meta name="keywords" content="Machine Learning Engineer, Agentic AI, LLM Engineer, Research Engineer, LangGraph, Multi-Agent Systems, Genomics, Bioinformatics, AWS, Python, Singapore">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Ankur Sharma, PhD — Senior ML / Agentic AI Engineer">
+    <meta property="og:description" content="Production multi-agent systems, ML-powered genomics, and cloud infrastructure. PhD, 8+ years, Illumina · Mirxes · NTU.">
+    <meta property="og:url" content="https://ankurgenomics.github.io/agentic-genomics/">
+    <meta property="og:image" content="https://ankurgenomics.github.io/agentic-genomics/assets/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='54' font-size='56'%3E%F0%9F%A7%AC%3C/text%3E%3C/svg%3E">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container header-content">
+            <a href="#top" class="logo">ANKUR<span class="dot">.</span>SHARMA</a>
+            <nav>
+                <ul>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#experience">Experience</a></li>
+                    <li><a href="#publications">Publications</a></li>
+                    <li><a href="#skills">Skills</a></li>
+                    <li class="nav-cta"><a href="#contact" class="cta">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero" id="top">
+        <div class="container">
+            <div class="eyebrow"><span class="pulse"></span> Open to ML · Agentic AI · Research Engineer roles</div>
+            <h1 class="hero-title">Senior ML &amp; <span class="grad">Agentic&nbsp;AI</span> Engineer building autonomous systems for science.</h1>
+            <p class="hero-desc">
+                PhD with <strong>8+ years</strong> shipping production ML and cloud infrastructure across clinical diagnostics and genomics.
+                I build <strong>multi-agent systems</strong> that diagnose real pipeline failures, ML-powered workflows that process
+                <strong>6,000+ samples</strong>, and open-source tooling for agentic AI in biomedicine. Currently at Illumina Singapore;
+                open to senior IC roles in <strong>ML / Agentic AI / Research Engineering</strong>.
+            </p>
+            <div class="cta-row">
+                <a href="#projects" class="btn btn-primary">See projects <span class="arrow">→</span></a>
+                <a href="assets/Ankur_Sharma_Resume_2026.docx" class="btn btn-ghost" download>Download CV</a>
+                <a href="https://github.com/ankurgenomics" target="_blank" rel="noopener" class="btn btn-ghost">GitHub</a>
+                <a href="https://www.linkedin.com/in/ankurit/" target="_blank" rel="noopener" class="btn btn-ghost">LinkedIn</a>
+                <a href="mailto:ankurs103@gmail.com" class="btn btn-ghost">Email</a>
+            </div>
+
+            <div class="proof-bar">
+                <div class="proof-stat">
+                    <div class="num">8+ yrs</div>
+                    <div class="label">Production ML &amp; bioinformatics</div>
+                </div>
+                <div class="proof-stat">
+                    <div class="num">6,000+</div>
+                    <div class="label">Genomic samples processed in production</div>
+                </div>
+                <div class="proof-stat">
+                    <div class="num">5 agents</div>
+                    <div class="label">Multi-agent ops system shipped (GenomicsOps AI)</div>
+                </div>
+                <div class="proof-stat">
+                    <div class="num">40% ↓</div>
+                    <div class="label">Compute cost via autonomous pipelines</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="projects">
+        <div class="container">
+            <div class="section-head">
+                <div class="section-kicker">// Selected work</div>
+                <h2 class="section-title">Agents, pipelines, and research projects</h2>
+                <p class="section-sub">Four projects that cover the range: open-source agentic AI, production multi-agent systems, self-optimising ML pipelines, and applied research. Each links to code, a demo, or a writeup where possible.</p>
+            </div>
+
+            <div class="projects-grid">
+                <article class="project featured reveal">
+                    <div>
+                        <div class="badges">
+                            <span class="badge badge-featured">Flagship · Open source</span>
+                            <span class="badge badge-oss">LangGraph · Claude · Python</span>
+                        </div>
+                        <h3>agentic-genomics · GenomicsCopilot</h3>
+                        <p class="project-hook">Autonomous variant interpretation with reasoning traces — the first open-source agentic system for clinical-style genomic analysis.</p>
+                        <p class="project-desc">
+                            A LangGraph agent that takes a VCF + HPO phenotype terms and produces a ranked, explainable report of candidate variants. It queries gnomAD, ClinVar and HPO via MyVariant.info, applies deterministic ACMG-lite rules for auditability, then uses Claude only where human judgment is needed: phenotype-weighted ranking and evidence-chain narratives. Every run emits a machine-readable reasoning trace for audit and replay.
+                        </p>
+                        <div class="metric-row">
+                            <div class="metric"><div class="val">6 nodes</div><div class="lbl">LangGraph state machine</div></div>
+                            <div class="metric"><div class="val">4 tools</div><div class="lbl">gnomAD · ClinVar · HPO · ACMG</div></div>
+                            <div class="metric"><div class="val">MIT</div><div class="lbl">Open source, Python 3.11+</div></div>
+                        </div>
+                        <div class="tech">
+                            <span class="tag">LangGraph</span>
+                            <span class="tag">Claude / Anthropic</span>
+                            <span class="tag">Pydantic v2</span>
+                            <span class="tag">pysam</span>
+                            <span class="tag">Streamlit</span>
+                            <span class="tag">Typer CLI</span>
+                            <span class="tag">GitHub Actions</span>
+                        </div>
+                        <div class="project-links">
+                            <a class="project-link" href="https://github.com/ankurgenomics/agentic-genomics" target="_blank" rel="noopener">→ GitHub repo</a>
+                            <a class="project-link" href="https://github.com/ankurgenomics/agentic-genomics/blob/main/docs/why-agentic.md" target="_blank" rel="noopener">→ Why agentic?</a>
+                            <a class="project-link" href="https://github.com/ankurgenomics/agentic-genomics/blob/main/docs/architecture.md" target="_blank" rel="noopener">→ Architecture</a>
+                        </div>
+                    </div>
+                    <div>
+<pre class="ascii-diagram">
+  <span class="hl2">VCF</span> + <span class="hl2">HPO terms</span>
+       │
+       ▼
+  ingest_variants        <span class="hl">[deterministic]</span>
+       │
+       ▼
+  annotate_evidence      <span class="hl">[MyVariant tool]</span>
+       │
+       ▼
+  frequency_filter       <span class="hl">[gnomAD &lt; 1%]</span>
+       │
+       ▼
+  phenotype_match        <span class="hl">[HPO ↔ gene]</span>
+       │
+       ▼
+  acmg_classify          <span class="hl">[rule engine]</span>
+       │
+       ▼
+  ┌─────────────────────────────┐
+  │  <span class="hl">synthesize_report (Claude)</span>  │
+  │  ranking + evidence chain   │
+  └──────────────┬──────────────┘
+                 ▼
+   <span class="hl2">ranked markdown report</span>
+   <span class="hl2">+ reasoning trace (JSON)</span>
+</pre>
+                    </div>
+                </article>
+
+                <article class="project reveal">
+                    <div class="badges">
+                        <span class="badge badge-prod">Production · Internal</span>
+                    </div>
+                    <h3>GenomicsOps AI</h3>
+                    <p class="project-hook">Five specialized agents that diagnose &amp; resolve DRAGEN, ICA and SGE/HPC pipeline failures autonomously.</p>
+                    <p class="project-desc">
+                        Internal Illumina system: Trigger → Log Fetcher → RAG → Classifier → JIRA Writer. Tested on real failures — BED-file overlaps, samplesheet index mismatches, stuck SGE jobs — with end-to-end triage and ticket creation.
+                    </p>
+                    <div class="metric-row">
+                        <div class="metric"><div class="val">67% ↓</div><div class="lbl">MTTR: 3 days → 2 hours</div></div>
+                        <div class="metric"><div class="val">5</div><div class="lbl">Specialised agents</div></div>
+                    </div>
+                    <div class="tech">
+                        <span class="tag">Multi-agent</span>
+                        <span class="tag">Claude API</span>
+                        <span class="tag">RAG</span>
+                        <span class="tag">Python</span>
+                        <span class="tag">JIRA &amp; Confluence APIs</span>
+                    </div>
+                    <div class="project-links">
+                        <span class="project-link disabled">Internal · happy to walk through in interviews</span>
+                    </div>
+                </article>
+
+                <article class="project reveal">
+                    <div class="badges">
+                        <span class="badge badge-prod">Production · Cloud</span>
+                    </div>
+                    <h3>Autonomous Genomic Pipelines (Mirxes)</h3>
+                    <p class="project-hook">Self-optimising WGS/RNA-seq workflows on AWS with adaptive resource allocation and automated QC gating.</p>
+                    <p class="project-desc">
+                        Designed and shipped the AWS infrastructure for the Singapore National Precision Medicine project. Nextflow on AWS Batch, with Lambda + Step Functions orchestrating sample intake, QC decisions, and output delivery. Processed 6,000+ samples with minimal human intervention.
+                    </p>
+                    <div class="metric-row">
+                        <div class="metric"><div class="val">40% ↓</div><div class="lbl">Compute cost</div></div>
+                        <div class="metric"><div class="val">50% ↓</div><div class="lbl">Storage footprint</div></div>
+                        <div class="metric"><div class="val">400 TB</div><div class="lbl">Genomic data managed</div></div>
+                    </div>
+                    <div class="tech">
+                        <span class="tag">Nextflow</span>
+                        <span class="tag">AWS Batch</span>
+                        <span class="tag">Lambda</span>
+                        <span class="tag">Step Functions</span>
+                        <span class="tag">Docker</span>
+                        <span class="tag">IaC</span>
+                    </div>
+                    <div class="project-links">
+                        <a class="project-link" href="https://github.com/ankurgenomics/gwas_nf" target="_blank" rel="noopener">→ Related Nextflow (GWAS)</a>
+                    </div>
+                </article>
+
+                <article class="project reveal">
+                    <div class="badges">
+                        <span class="badge badge-research">Research · PhD</span>
+                    </div>
+                    <h3>Age-dependent hepatocyte epigenomics</h3>
+                    <p class="project-hook">Integrative RNA-seq + ChIP-seq + Hi-C analysis pipeline revealing age-driven chromatin reorganisation in mouse liver.</p>
+                    <p class="project-desc">
+                        PhD work at NTU: built end-to-end NGS analysis pipelines for transcriptome, histone modifications, and 3D chromatin. Identified H3K27me3 as a key age-dependent regulator. The technical stack — reproducible pipelines, multi-omic integration, careful statistics — is the same foundation I now use for agentic ML systems.
+                    </p>
+                    <div class="tech">
+                        <span class="tag">RNA-seq</span>
+                        <span class="tag">ChIP-seq</span>
+                        <span class="tag">Hi-C (3C-seq)</span>
+                        <span class="tag">R · Bioconductor</span>
+                        <span class="tag">Python</span>
+                        <span class="tag">k-means / GSEA</span>
+                    </div>
+                    <div class="project-links">
+                        <a class="project-link" href="https://doi.org/10.32657/10356/155390" target="_blank" rel="noopener">→ Thesis (DOI)</a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="about">
+        <div class="container">
+            <div class="section-head">
+                <div class="section-kicker">// About</div>
+                <h2 class="section-title">Scientist-turned-engineer with production miles.</h2>
+                <p class="section-sub">
+                    PhD bioinformatician with 8+ years spanning clinical diagnostics, genomic data analysis, and cloud infrastructure.
+                    Proven track record in <strong style="color:var(--text);">regulatory validation</strong> (DVT, clinical concordance, LOD),
+                    <strong style="color:var(--text);">production-grade pipelines</strong>, and commercial product improvement at leading genomics companies (Illumina, Mirxes).
+                    Now focused on agentic AI systems that apply the same rigour — traceability, reproducibility, measurable outcomes —
+                    to autonomous reasoning over real biomedical data.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="experience">
+        <div class="container">
+            <div class="section-head">
+                <div class="section-kicker">// Experience</div>
+                <h2 class="section-title">From benchtop to autonomous pipelines</h2>
+                <p class="section-sub">A decade-plus moving from wet-lab genomics and pharmaceutical QC to production ML infrastructure and, now, agentic AI systems.</p>
+            </div>
+
+            <div class="timeline">
+                <div class="tl-item reveal">
+                    <div class="tl-date">Jul 2025 — Present</div>
+                    <div class="tl-role">Senior Scientist, Bioinformatics</div>
+                    <div class="tl-org">Illumina · Singapore</div>
+                    <div class="tl-body">
+                        <ul>
+                            <li>Designed and prototyped <strong>GenomicsOps AI</strong>, a 5-agent system for autonomous pipeline diagnostics (won internal hackathon).</li>
+                            <li>Lead <strong>Design Verification Testing (DVT)</strong> and regulatory validation for commercial diagnostic products (TSO500, NIPT16, VeriSeq) — FDA compliance, clinical-deployment quality.</li>
+                            <li><strong>TSO500:</strong> optimised TruSight Oncology 500 assay workflows for comprehensive genomic profiling in oncology.</li>
+                            <li><strong>NIPT16:</strong> contributed to non-invasive prenatal testing product development and validation.</li>
+                            <li><strong>VeriSeq:</strong> performed software testing and workflow optimisation, improving reporting efficiency and data-analysis reliability.</li>
+                            <li>Designed clinical concordance studies — sensitivity, specificity, accuracy, LOD, reproducibility — for regulatory submissions.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tl-item reveal">
+                    <div class="tl-date">Jan 2022 — Jul 2025</div>
+                    <div class="tl-role">Senior Scientist — Bioinformatics &amp; Cloud</div>
+                    <div class="tl-org">Mirxes · Singapore</div>
+                    <div class="tl-body">
+                        <ul>
+                            <li>Built and validated <strong>production-grade cloud data-analysis pipelines</strong>: 40%↓ compute cost, 50%↓ storage cost, 30%↓ turnaround time.</li>
+                            <li>Analysed <strong>6,000+ genomic samples</strong> with standardised workflows and rigorous QC.</li>
+                            <li>Architected AWS infrastructure integrating <strong>15 services</strong> to manage and process <strong>400 TB</strong> of genomic data.</li>
+                            <li>Led a team of 5 scientists delivering clinical diagnostic assay workflows across cancer types — 33%↓ analysis time.</li>
+                            <li>Technical lead for the <strong>Singapore National Precision Medicine</strong> project; identified business opportunities worth SGD 0.5M.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tl-item reveal">
+                    <div class="tl-date">Jul 2021 — Dec 2021</div>
+                    <div class="tl-role">Scientist, Assay Development</div>
+                    <div class="tl-org">Vela Diagnostics · Singapore</div>
+                    <div class="tl-body">
+                        Implemented automated verification procedures and maintained regulatory documentation (NCR, CAPA, DR). Shipped a testing framework that cut non-conformance reports by 30% and lifted product quality by 15%.
+                    </div>
+                </div>
+
+                <div class="tl-item reveal">
+                    <div class="tl-date">2016 — 2021</div>
+                    <div class="tl-role">PhD Research Fellow, Biological Sciences</div>
+                    <div class="tl-org">Nanyang Technological University · Singapore</div>
+                    <div class="tl-body">
+                        Multi-omic study of age-dependent transcriptional and epigenetic changes in mouse hepatocytes. Built reproducible NGS analysis pipelines covering RNA-seq, ChIP-seq, and Hi-C (3C-seq).
+                        Head of NTU 3MT team (23 members, Nanyang Awards); led operations for TEDxNTU (78-person team, 1,500+ audience).
+                        Thesis DOI: <a href="https://doi.org/10.32657/10356/155390" target="_blank" rel="noopener">10.32657/10356/155390</a>.
+                    </div>
+                </div>
+
+                <div class="tl-item reveal">
+                    <div class="tl-date">2011 — 2013</div>
+                    <div class="tl-role">Technical Supervisor</div>
+                    <div class="tl-org">Zydus Cadila Healthcare Ltd. · Ahmedabad, India</div>
+                    <div class="tl-body">
+                        Built process-validation and QC pipelines for 13 pharmaceutical products under cGMP guidelines — 30%↑ efficiency, 10%↓ processing time. First exposure to regulated, high-stakes data infrastructure.
+                    </div>
+                </div>
+
+                <div class="tl-item reveal">
+                    <div class="tl-date">Education</div>
+                    <div class="tl-role">PhD · M.Tech · B.Tech — Biological Sciences &amp; Biotechnology</div>
+                    <div class="tl-org">NTU Singapore · Anna University · UPTU India</div>
+                    <div class="tl-body">
+                        <ul>
+                            <li><strong>PhD in Biological Sciences</strong> — Nanyang Technological University, Singapore (2016 – 2021).</li>
+                            <li><strong>M.Tech in Biotechnology</strong> — Anna University, India (2013 – 2015).</li>
+                            <li><strong>B.Tech in Biotechnology</strong> — Uttar Pradesh Technical University, India (2007 – 2011).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="publications">
+        <div class="container">
+            <div class="section-head">
+                <div class="section-kicker">// Publications &amp; writing</div>
+                <h2 class="section-title">Research output &amp; technical writing</h2>
+                <p class="section-sub">Peer-reviewed work, open-source documentation, and engineering writeups.</p>
+            </div>
+
+            <div class="pub-list">
+                <div class="pub reveal">
+                    <div class="pub-type">Doctoral thesis · NTU · 2021</div>
+                    <div class="pub-title">Age-dependent transcriptional and epigenetic alterations in mouse hepatocytes</div>
+                    <div class="pub-meta">
+                        Sharma, A. (2021). Nanyang Technological University. ·
+                        <a href="https://doi.org/10.32657/10356/155390" target="_blank" rel="noopener">doi:10.32657/10356/155390</a> ·
+                        <a href="https://hdl.handle.net/10356/155390" target="_blank" rel="noopener">hdl.handle.net</a>
+                    </div>
+                </div>
+
+                <div class="pub reveal">
+                    <div class="pub-type">Technical writeup · Open source</div>
+                    <div class="pub-title">Why agentic AI for genomics? Designing reasoning-traceable variant interpretation</div>
+                    <div class="pub-meta">
+                        Design philosophy &amp; architecture doc shipped with <em>agentic-genomics</em>. ·
+                        <a href="https://github.com/ankurgenomics/agentic-genomics/blob/main/docs/why-agentic.md" target="_blank" rel="noopener">Read on GitHub</a>
+                    </div>
+                </div>
+
+                <div class="pub reveal">
+                    <div class="pub-type">Conference poster · Cell Symposia, Chicago · 2019</div>
+                    <div class="pub-title">Significance of hepatocyte polyploidization in liver physiology and pathology</div>
+                    <div class="pub-meta">
+                        Sharma A, Ong A, Wuestefeld T, Sanyal A. Transcriptional regulation in evolution, development and disease.
+                    </div>
+                </div>
+
+                <div class="pub reveal">
+                    <div class="pub-type">Peer-reviewed · Frontiers in Microbiology · 2018</div>
+                    <div class="pub-title">Antiproliferative and antioxidative bioactive compounds in extracts of marine-derived endophytic fungus</div>
+                    <div class="pub-meta">
+                        Kumari M, Taritla S, <strong>Sharma A</strong>, Jayabaskaran C. ·
+                        <a href="https://www.frontiersin.org/journals/microbiology" target="_blank" rel="noopener">Frontiers in Microbiology</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="skills">
+        <div class="container">
+            <div class="section-head">
+                <div class="section-kicker">// Skills</div>
+                <h2 class="section-title">What I use, how often</h2>
+                <p class="section-sub">Weighted by how regularly I use each tool in production, not by how much I've ever touched it.</p>
+            </div>
+
+            <div class="skills-grid">
+                <div class="skill-card reveal">
+                    <h4>Agentic AI &amp; LLMs <span class="kbd">primary</span></h4>
+                    <div class="skill-row"><span class="name">LangGraph / LangChain</span><span class="lvl core">core</span></div>
+                    <div class="skill-row"><span class="name">Claude / Anthropic API</span><span class="lvl core">core</span></div>
+                    <div class="skill-row"><span class="name">Multi-agent orchestration</span><span class="lvl core">core</span></div>
+                    <div class="skill-row"><span class="name">RAG &amp; vector stores</span><span class="lvl">frequent</span></div>
+                    <div class="skill-row"><span class="name">Tool-calling &amp; function agents</span><span class="lvl">frequent</span></div>
+                    <div class="skill-row"><span class="name">OpenAI API / GPT-4</span><span class="lvl">frequent</span></div>
+                    <div class="skill-row"><span class="name">Local LLMs (Ollama)</span><span class="lvl">familiar</span></div>
+                </div>
+
+                <div class="skill-card reveal">
+                    <h4>Machine learning &amp; MLOps <span class="kbd">primary</span></h4>
+                    <div class="skill-row"><span class="name">Python · scikit-learn</span><span class="lvl core">core</span></div>
+                    <div class="skill-row"><span class="name">Pandas / NumPy</span><span class="lvl core">core</span></div>
+                    <div class="skill-row"><span class="name">Statistical modelling</span><span class="lvl core">core</span></div>
+                    <div class="skill-row"><span class="name">PyTorch</span><span class="lvl">frequent</span></div>
+                    <div class="skill-row"><span class="name">Feature engineering</span><span class="lvl">frequent</span></div>
+                    <div class="skill-row"><span class="name">MLflow / experiment tracking</span><span class="lvl">frequent</span></div>
+                </div>
+
+                <div class="skill-card reveal">
+                    <h4>Cloud &amp; infra <span class="kbd">primary</span></h4>
+                    <div class="skill-row"><span class="name">AWS (Batch, Lambda, S3, Step Fns)</span><span class="lvl core">core</span></div>
+                    <div class="skill-row"><span class="name">Nextflow (DSL2)</span><span class="lvl core">core</span></div>
+                    <div class="skill-row"><span class="name">Docker</span><span class="lvl core">core</span></div>
+                    <div class="skill-row"><span class="name">CI/CD (GitHub Actions)</span><span class="lvl">frequent</span></div>
+                    <div class="skill-row"><span class="name">IaC (CloudFormation / CDK)</span><span class="lvl">frequent</span></div>
+                    <div class="skill-row"><span class="name">Kubernetes</span><span class="lvl">familiar</span></div>
+                </div>
+
+                <div class="skill-card reveal">
+                    <h4>Bioinformatics domain <span class="kbd">expert</span></h4>
+                    <div class="skill-row"><span class="name">NGS — WGS / WES / RNA-seq / ChIP-seq</span><span class="lvl core">core</span></div>
+                    <div class="skill-row"><span class="name">WGMS · single-cell · spatial</span><span class="lvl">frequent</span></div>
+                    <div class="skill-row"><span class="name">DRAGEN · GATK · samtools · bcftools</span><span class="lvl core">core</span></div>
+                    <div class="skill-row"><span class="name">Variant calling &amp; interpretation</span><span class="lvl core">core</span></div>
+                    <div class="skill-row"><span class="name">R · Bioconductor · DESeq2</span><span class="lvl">frequent</span></div>
+                    <div class="skill-row"><span class="name">Snakemake</span><span class="lvl">frequent</span></div>
+                </div>
+
+                <div class="skill-card reveal">
+                    <h4>Regulatory &amp; clinical <span class="kbd">expert</span></h4>
+                    <div class="skill-row"><span class="name">Design Verification Testing (DVT)</span><span class="lvl core">core</span></div>
+                    <div class="skill-row"><span class="name">Clinical validation (LOD, sensitivity, specificity)</span><span class="lvl core">core</span></div>
+                    <div class="skill-row"><span class="name">FDA compliance · SOPs</span><span class="lvl core">core</span></div>
+                    <div class="skill-row"><span class="name">cGMP documentation</span><span class="lvl">frequent</span></div>
+                    <div class="skill-row"><span class="name">NCR / CAPA / DR</span><span class="lvl">frequent</span></div>
+                    <div class="skill-row"><span class="name">HIPAA · security compliance</span><span class="lvl">frequent</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="contact">
+        <div class="container">
+            <div class="contact-card reveal">
+                <div class="section-kicker">// Contact</div>
+                <h2 class="section-title">Let's build something useful.</h2>
+                <p class="section-sub" style="margin: 0 auto;">Open to <strong style="color:var(--text);">Senior / Staff ML Engineer</strong>, <strong style="color:var(--text);">Agentic AI Engineer</strong>, <strong style="color:var(--text);">Research Engineer</strong>, and <strong style="color:var(--text);">Applied Scientist</strong> roles. Based in Singapore (PR) — open to remote or relocation for the right team.</p>
+
+                <div class="contact-links">
+                    <a href="mailto:ankurs103@gmail.com" class="contact-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7l9 6 9-6M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                        ankurs103@gmail.com
+                    </a>
+                    <a href="tel:+6584026093" class="contact-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.86 19.86 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.86 19.86 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.37 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.33 1.85.57 2.81.7A2 2 0 0122 16.92z"/></svg>
+                        +65 8402 6093
+                    </a>
+                    <a href="https://github.com/ankurgenomics" target="_blank" rel="noopener" class="contact-item">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 007.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.71.08-.71 1.16.08 1.77 1.2 1.77 1.2 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.7 0-1.26.45-2.29 1.2-3.1-.12-.3-.52-1.48.11-3.08 0 0 .98-.31 3.2 1.18a11 11 0 015.82 0c2.22-1.49 3.2-1.18 3.2-1.18.63 1.6.23 2.78.11 3.08.75.81 1.2 1.84 1.2 3.1 0 4.43-2.7 5.4-5.27 5.69.41.35.77 1.05.77 2.12v3.14c0 .31.21.67.8.56A11.5 11.5 0 0023.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+                        github.com/ankurgenomics
+                    </a>
+                    <a href="https://www.linkedin.com/in/ankurit/" target="_blank" rel="noopener" class="contact-item">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.95v5.66H9.36V9h3.41v1.56h.05c.48-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 11.01-4.12 2.06 2.06 0 01-.01 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.78C.8 0 0 .78 0 1.74v20.52C0 23.22.8 24 1.78 24h20.44c.98 0 1.78-.78 1.78-1.74V1.74C24 .78 23.2 0 22.22 0z"/></svg>
+                        linkedin.com/in/ankurit
+                    </a>
+                    <a href="assets/Ankur_Sharma_Resume_2026.docx" class="contact-item" download>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                        Download CV
+                    </a>
+                </div>
+                <p style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-muted);">Based in Singapore (PR) · Open to remote or relocation for the right team.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© 2026 Ankur Sharma, PhD · Built with plain HTML/CSS and a lot of coffee.</p>
+            <p style="margin-top: 0.4rem;">Source: <a href="https://github.com/ankurgenomics/agentic-genomics/tree/main/docs/site" target="_blank" rel="noopener">github.com/ankurgenomics/agentic-genomics/docs/site</a></p>
+        </div>
+    </footer>
+
+    <script>
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }});
+        }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+        document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    </script>
+</body>
+</html>

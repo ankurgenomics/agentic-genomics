@@ -1,0 +1,19 @@
+##fileformat=VCFv4.2
+##source=agentic-genomics-demo
+##reference=GRCh38
+##INFO=<ID=NOTE,Number=1,Type=String,Description="Curator note about expected interpretation">
+##INFO=<ID=CSQ,Number=.,Type=String,Description="Consequence annotations from VEP-lite. Format: Consequence|SYMBOL|HGVSc|HGVSp">
+##contig=<ID=chr2>
+##contig=<ID=chr7>
+##contig=<ID=chr13>
+##contig=<ID=chr17>
+##contig=<ID=chr19>
+##contig=<ID=chrX>
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
+chr17	43093843	.	A	G	500	PASS	NOTE=BRCA1_missense_LP_expected;CSQ=missense_variant|BRCA1||
+chr13	32319101	.	C	T	500	PASS	NOTE=BRCA2_missense_benign_common;CSQ=missense_variant|BRCA2||
+chr7	117559593	.	ATCT	A	500	PASS	NOTE=CFTR_F508del_pathogenic_canonical;CSQ=inframe_deletion|CFTR||p.Phe508del
+chr19	11113431	.	G	A	500	PASS	NOTE=LDLR_missense_VUS_candidate;CSQ=missense_variant|LDLR||
+chr2	166179712	.	T	C	500	PASS	NOTE=SCN1A_missense_LP_seizure_phenotype;CSQ=missense_variant|SCN1A||
+chr17	7676154	.	G	A	500	PASS	NOTE=TP53_missense_cancer_hotspot;CSQ=missense_variant|TP53||
+chrX	31496350	.	C	T	500	PASS	NOTE=DMD_benign_intronic;CSQ=intron_variant|DMD||

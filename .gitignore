@@ -1,0 +1,76 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+.python-version
+
+# Environment variables / secrets
+.env
+.env.local
+*.key
+*.pem
+
+# Testing / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+
+# Jupyter
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Cache directories used by the agent
+.cache/
+.agentic_genomics_cache/
+
+# Local data / outputs (keep only curated demo data)
+data/raw/
+data/processed/
+outputs/
+reports/
+*.log
+
+# LangGraph / LangChain
+.langgraph_api/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# macOS
+.DS_Store
