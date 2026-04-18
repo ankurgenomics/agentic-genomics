@@ -7,9 +7,10 @@ from langgraph.graph import END, StateGraph
 from agentic_genomics.agents.variant_interpreter.nodes import (
     acmg_classify,
     annotate_evidence,
+    critic_review,
     frequency_filter,
     ingest_variants,
-    phenotype_match,
+    phenotype_score,
     synthesize_report,
 )
 from agentic_genomics.agents.variant_interpreter.state import VariantInterpreterState
@@ -19,25 +20,28 @@ def build_variant_interpreter():
     """Compile and return a LangGraph app for variant interpretation.
 
     The graph is intentionally linear. Agentic *reasoning* happens inside
-    the LLM node; orchestration is deterministic so the pipeline is easy
-    to reason about, test, and visualise.
+    the two LLM nodes (``synthesize_report`` and ``critic_review``);
+    orchestration is deterministic so the pipeline is easy to reason
+    about, test, and visualise.
     """
     graph = StateGraph(VariantInterpreterState)
 
     graph.add_node("ingest_variants", ingest_variants)
     graph.add_node("annotate_evidence", annotate_evidence)
     graph.add_node("frequency_filter", frequency_filter)
-    graph.add_node("phenotype_match", phenotype_match)
+    graph.add_node("phenotype_score", phenotype_score)
     graph.add_node("acmg_classify", acmg_classify)
     graph.add_node("synthesize_report", synthesize_report)
+    graph.add_node("critic_review", critic_review)
 
     graph.set_entry_point("ingest_variants")
     graph.add_edge("ingest_variants", "annotate_evidence")
     graph.add_edge("annotate_evidence", "frequency_filter")
-    graph.add_edge("frequency_filter", "phenotype_match")
-    graph.add_edge("phenotype_match", "acmg_classify")
+    graph.add_edge("frequency_filter", "phenotype_score")
+    graph.add_edge("phenotype_score", "acmg_classify")
     graph.add_edge("acmg_classify", "synthesize_report")
-    graph.add_edge("synthesize_report", END)
+    graph.add_edge("synthesize_report", "critic_review")
+    graph.add_edge("critic_review", END)
 
     return graph.compile()
 

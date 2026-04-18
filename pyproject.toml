@@ -86,6 +86,13 @@ target-version = "py311"
 select = ["E", "F", "I", "N", "W", "UP", "B", "SIM"]
 ignore = ["E501", "B008"]
 
+[tool.ruff.lint.per-file-ignores]
+# Notebooks routinely load dotenv before other imports and that's fine.
+"notebooks/*.ipynb" = ["E402"]
+# Streamlit apps commonly use NamedTemporaryFile without a context manager
+# when the file's lifetime needs to outlive the handler.
+"apps/*.py" = ["SIM115"]
+
 [tool.pytest.ini_options]
 minversion = "8.0"
 addopts = "-ra -q --strict-markers"

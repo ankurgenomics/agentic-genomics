@@ -2,21 +2,47 @@
 
 `agentic-genomics` is a growing collection of agents. This document tracks what's built, what's next, and why.
 
+> See [`../LIMITATIONS.md`](../LIMITATIONS.md) for a full accounting of what the current implementation does NOT do. The "near-term improvements" below are derived from that limitations inventory.
+
 ## Current
 
 ### 🟢 `variant_interpreter` — GenomicsCopilot (MVP)
 
-Autonomous variant interpretation. Takes a VCF + HPO terms and returns a ranked, explainable report. See [`architecture.md`](./architecture.md).
+Research-demonstration variant interpretation. Takes a VCF + HPO terms and returns a ranked, explainable report plus a critic-reviewed fact-check of the LLM's claims. See [`architecture.md`](./architecture.md).
 
-Status: **alpha**. Works end-to-end on small cohorts using public demo data.
+Status: **alpha**. Works end-to-end on small demo VCFs using public APIs (MyVariant.info + JAX HPO). Not suitable for clinical use.
 
-#### Near-term improvements
+#### What shipped in the v0.2 pass
 
-- [ ] Add inheritance-pattern node (de novo / recessive / dominant) for trio VCFs.
-- [ ] Include SpliceAI / AlphaMissense as first-class evidence when available.
-- [ ] LangSmith tracing toggle in `.env`.
-- [ ] Offline demo mode with pre-cached API responses (for no-network environments).
-- [ ] Evaluation harness: replay known pathogenic variants and measure recall@k.
+- PVS1 with a real LoF-intolerance gate (gnomAD pLI ≥ 0.9 or LOEUF ≤ 0.35).
+- Richards et al. 2015 (Table 5) combining rules replacing the naive "count the hits" logic.
+- Phrank-style IC-weighted HPO semantic similarity replacing exact-ID overlap.
+- A `critic_review` LangGraph node: second LLM pass that fact-checks the synthesiser's prose against the evidence JSON and flags unsupported claims.
+- `LIMITATIONS.md` enumerating what the system does NOT do.
+
+#### Near-term correctness work (high priority)
+
+- [ ] `bcftools norm` (or pure-Python left-aligner) pre-step so variant representation is canonical.
+- [ ] Add `PS1` / `PM5` — ClinVar-per-residue lookup + same-AA / different-AA-same-residue checks.
+- [ ] Add `PM4` — in-frame indel and stop-loss detection.
+- [ ] ClinGen ClinVar-promotion scheme (use review status to promote PP5/BP6 to PS/BS weight) replacing the flat PP5/BP6 triggers deprecated in 2018.
+- [ ] Evaluation harness: replay a held-out ClinVar slice, report recall@k and call-accuracy confusion matrix.
+
+#### Medium-priority scope extensions
+
+- [ ] Trio VCF ingestion + de novo detection.
+- [ ] Compound-heterozygote detection for recessive genes.
+- [ ] PanelApp / OMIM gene-panel awareness — down-weight off-panel hits.
+- [ ] Disease-aware AF thresholds (Whiffin et al. 2017) replacing flat 1% / 5% bins.
+- [ ] GRCh37 / hg19 support — CLI option routing to the correct MyVariant assembly.
+- [ ] Structural-variant handling (current pipeline is SNV/indel only).
+
+#### Lower-priority agent-design work
+
+- [ ] ReAct-style tool-calling variant — let the LLM decide when to re-query MyVariant with a different key or walk a phenotype term's children.
+- [ ] Confidence-calibration metric — have the synthesiser emit a scalar "report confidence" and evaluate its calibration on held-out data.
+- [ ] LangSmith tracing toggle in `.env` + cost-aware planning.
+- [ ] Offline demo mode with a pre-baked API-response cache for no-network environments.
 
 ## Planned
 

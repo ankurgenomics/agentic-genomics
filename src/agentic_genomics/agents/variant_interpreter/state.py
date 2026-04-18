@@ -50,13 +50,18 @@ class ClinicalEvidence(BaseModel):
 
 
 class FunctionalScores(BaseModel):
-    """In-silico prediction scores used for ACMG PP3/BP4."""
+    """In-silico prediction scores used for ACMG PP3/BP4 and PVS1 gating."""
 
     cadd_phred: float | None = None
     revel: float | None = None
     spliceai_max: float | None = None
     sift: str | None = None
     polyphen: str | None = None
+    # Gene-level loss-of-function intolerance (from gnomAD constraint metrics).
+    # pLI near 1 and LOEUF < ~0.35 both indicate the gene is haploinsufficient,
+    # which is the gating condition for ACMG PVS1.
+    gnomad_pli: float | None = None
+    gnomad_loeuf: float | None = None
 
 
 class PopulationFrequency(BaseModel):
@@ -68,11 +73,17 @@ class PopulationFrequency(BaseModel):
 
 
 class PhenotypeMatch(BaseModel):
-    """Whether the variant's gene matches the proband's HPO terms."""
+    """Whether the variant's gene matches the proband's HPO terms.
+
+    ``score`` is a Phrank-style IC-weighted semantic similarity (higher is
+    better, roughly 0–10 on typical data). ``match_strength`` is a coarse
+    bucket derived from ``score`` for human-readable summaries.
+    """
 
     matched_hpo_terms: list[str] = Field(default_factory=list)
     linked_diseases: list[str] = Field(default_factory=list)
     match_strength: Literal["strong", "moderate", "weak", "none"] = "none"
+    score: float = 0.0
 
 
 class ACMGAssessment(BaseModel):
@@ -81,6 +92,23 @@ class ACMGAssessment(BaseModel):
     call: ACMGCall
     criteria_triggered: list[str] = Field(default_factory=list)  # e.g. ["PM2_Supporting", "PP3"]
     rationale: str = ""
+
+
+class CriticFlag(BaseModel):
+    """A single concern raised by the critic LLM about the synthesised report."""
+
+    severity: Literal["info", "warn", "error"] = "warn"
+    claim: str = ""  # verbatim phrase or statement from the report
+    concern: str = ""  # why the critic thinks it's unsupported
+    suggestion: str = ""  # how to make it defensible
+
+
+class CriticReview(BaseModel):
+    """Output of the critic LLM pass."""
+
+    verdict: Literal["supported", "partially_supported", "unsupported"] = "partially_supported"
+    summary: str = ""
+    flags: list[CriticFlag] = Field(default_factory=list)
 
 
 class AnnotatedVariant(BaseModel):
@@ -105,4 +133,5 @@ class VariantInterpreterState(BaseModel):
     variants: list[AnnotatedVariant] = Field(default_factory=list)
     reasoning_trace: list[dict[str, Any]] = Field(default_factory=list)
     report_markdown: str = ""
+    critic_review: CriticReview | None = None
     error: str | None = None

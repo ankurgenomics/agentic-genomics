@@ -30,16 +30,18 @@ flowchart TD
     A[VCF + HPO terms] --> B[ingest_variants]
     B --> C[annotate_evidence<br/>MyVariant.info]
     C --> D[frequency_filter<br/>drop AF > 1%]
-    D --> E[phenotype_match<br/>HPO ↔ gene]
-    E --> F[acmg_classify<br/>deterministic rules]
+    D --> E[phenotype_score<br/>Phrank HPO sim]
+    E --> F[acmg_classify<br/>PVS1 + Richards 2015]
     F --> G[synthesize_report<br/>Claude LLM]
-    G --> H[Ranked Markdown report<br/>+ reasoning trace]
+    G --> H[critic_review<br/>Claude LLM, fact-check]
+    H --> I[Ranked Markdown report<br/>+ reasoning trace<br/>+ critic flags]
 
     style G fill:#8A2BE2,color:#fff
-    style H fill:#2ea043,color:#fff
+    style H fill:#8A2BE2,color:#fff
+    style I fill:#2ea043,color:#fff
 ```
 
-**Orchestration is deterministic**; only the `synthesize_report` node calls an LLM. This is a deliberate choice (see [`why-agentic.md`](./why-agentic.md#use-llms-for-reasoning-not-arithmetic)).
+**Orchestration is deterministic**; only `synthesize_report` and `critic_review` call an LLM. The critic node is the one genuinely agentic loop: it sees the same evidence JSON the synthesiser saw, plus the synthesiser's draft, and returns structured flags for any unsupported claims. This is a deliberate, conservative take on the agent pattern (see [`why-agentic.md`](./why-agentic.md#use-llms-for-reasoning-not-arithmetic) and [`../LIMITATIONS.md`](../LIMITATIONS.md#5-what-the-agent-is-and-is-not)).
 
 ## State contract
 
@@ -57,9 +59,9 @@ Because state is typed, each node's contract is self-documenting and trivially t
 | Tool                            | What it wraps                  | Returns                                 |
 | ------------------------------- | ------------------------------ | --------------------------------------- |
 | `tools/vcf_parser.py`           | pysam on a VCF file            | `list[Variant]`                         |
-| `tools/myvariant.py`            | MyVariant.info REST API        | `PopulationFrequency`, `FunctionalScores`, `ClinicalEvidence` |
-| `tools/hpo.py`                  | JAX HPO Toolkit API            | `PhenotypeMatch`                        |
-| `tools/acmg.py`                 | pure-Python rule engine        | `ACMGAssessment`                        |
+| `tools/myvariant.py`            | MyVariant.info REST API        | `PopulationFrequency`, `FunctionalScores` (incl. gnomAD pLI/LOEUF), `ClinicalEvidence` |
+| `tools/hpo.py`                  | JAX HPO Toolkit API + IC-weighted LCA over the HPO DAG | `PhenotypeMatch` with Phrank-style score |
+| `tools/acmg_lite.py`            | pure-Python rule engine; 9/28 criteria + Richards 2015 combining rules | `ACMGAssessment`                        |
 
 Every network-bound tool is disk-cached (`core/cache.py`) so reruns and tests don't thrash upstream services.
 

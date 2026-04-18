@@ -72,7 +72,7 @@ def extract_population(record: dict[str, Any] | None) -> PopulationFrequency:
 
 
 def extract_functional(record: dict[str, Any] | None) -> FunctionalScores:
-    """Pull CADD / REVEL / SpliceAI / dbNSFP scores."""
+    """Pull CADD / REVEL / SpliceAI / dbNSFP scores + gnomAD constraint."""
     if not record:
         return FunctionalScores()
 
@@ -94,6 +94,29 @@ def extract_functional(record: dict[str, Any] | None) -> FunctionalScores:
     revel = dbnsfp.get("revel", {})
     revel_score = revel.get("score") if isinstance(revel, dict) else revel
 
+    # gnomAD constraint metrics. MyVariant aggregates these under
+    # "gnomad_genome" / "gnomad_exome" > "constraint" or a top-level
+    # "gnomad_constraint" field depending on release; we look in the
+    # usual places and fall back gracefully.
+    pli = loeuf = None
+    for container in (
+        record.get("gnomad_constraint"),
+        (record.get("gnomad_exome") or {}).get("constraint")
+        if isinstance(record.get("gnomad_exome"), dict) else None,
+        (record.get("gnomad_genome") or {}).get("constraint")
+        if isinstance(record.get("gnomad_genome"), dict) else None,
+    ):
+        if not isinstance(container, dict):
+            continue
+        if pli is None:
+            candidate = container.get("pli") or container.get("pLI")
+            if isinstance(candidate, (int, float)):
+                pli = float(candidate)
+        if loeuf is None:
+            candidate = container.get("loeuf") or container.get("oe_lof_upper")
+            if isinstance(candidate, (int, float)):
+                loeuf = float(candidate)
+
     return FunctionalScores(
         cadd_phred=cadd.get("phred") if isinstance(cadd, dict) else None,
         revel=revel_score if isinstance(revel_score, (int, float)) else None,
@@ -102,6 +125,8 @@ def extract_functional(record: dict[str, Any] | None) -> FunctionalScores:
         polyphen=dbnsfp.get("polyphen2", {}).get("hdiv", {}).get("pred")
         if isinstance(dbnsfp.get("polyphen2"), dict)
         else None,
+        gnomad_pli=pli,
+        gnomad_loeuf=loeuf,
     )
 
 

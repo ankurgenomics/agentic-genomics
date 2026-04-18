@@ -1,17 +1,17 @@
 # agentic-genomics
 
-> **Agentic AI systems for genomics.** Autonomous agents that reason over biomedical knowledge the way a bioinformatician or clinical geneticist does — not just as deterministic pipelines.
+> **Agentic AI for genomics — with reasoning traces you can audit.** An LLM-plus-tools pattern that makes variant interpretation explainable, not opaque.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![Built with LangGraph](https://img.shields.io/badge/built%20with-LangGraph-8A2BE2)](https://langchain-ai.github.io/langgraph/)
 [![Status: Alpha](https://img.shields.io/badge/status-alpha-orange)](#roadmap)
 
-Genomics workflows are long, judgment-heavy, and scattered across a dozen databases. Large language models with the right **tools + structured reasoning** can now act as research copilots — drafting interpretations, explaining their evidence, and letting the human focus on the decisions that actually matter.
+Genomics workflows are long, judgment-heavy, and scattered across a dozen databases. LLMs with the right **tools + structured reasoning** can act as a research copilot — drafting interpretations, explaining their evidence, and letting the human focus on the decisions that actually matter.
 
-This repo is a growing collection of such agents. The flagship agent is **GenomicsCopilot**, an autonomous variant interpretation assistant.
+This repo is a growing collection of such agents. The flagship agent is **GenomicsCopilot**, a variant-interpretation assistant.
 
-> ⚠️ **Research & educational use only.** Outputs are *not* clinical. See [`DISCLAIMER.md`](./DISCLAIMER.md).
+> ⚠️ **Research demonstration only. Not for clinical use. Not a medical device.** The ACMG implementation is a transparent *lite* subset — not certified, not complete, and not a substitute for a clinical variant scientist. See [`LIMITATIONS.md`](./LIMITATIONS.md) and [`DISCLAIMER.md`](./DISCLAIMER.md) for the full accounting of what this system does and does not do.
 
 ---
 
@@ -32,7 +32,7 @@ Read more: [`docs/why-agentic.md`](./docs/why-agentic.md).
 ## Flagship agent: `GenomicsCopilot` — variant interpretation
 
 **Input:** a VCF file + a list of [HPO](https://hpo.jax.org/) phenotype terms for the proband.
-**Output:** a ranked, *explainable* list of candidate variants with ACMG-style evidence chains and a plain-English clinical-research summary.
+**Output:** a ranked, *explainable* list of candidate variants with ACMG-lite evidence chains and a plain-English research summary, **plus a critic-reviewed check** that flags any LLM claims not supported by the underlying evidence JSON.
 
 ### Architecture
 
@@ -40,18 +40,20 @@ Read more: [`docs/why-agentic.md`](./docs/why-agentic.md).
 flowchart TD
     A[VCF + HPO terms] --> B[ingest_variants]
     B --> C[frequency_filter<br/>gnomAD / MyVariant]
-    C --> D[annotate_functional<br/>Ensembl VEP]
+    C --> D[annotate_functional<br/>Ensembl VEP / CADD / SpliceAI]
     D --> E[clinical_lookup<br/>ClinVar]
-    E --> F[phenotype_match<br/>HPO ↔ gene]
-    F --> G[acmg_classify]
+    E --> F[phenotype_score<br/>Phrank HPO semantic sim]
+    F --> G[acmg_lite_classify<br/>PVS1 + Richards 2015]
     G --> H[reasoning_synthesizer<br/>Claude]
-    H --> I[ranked report +<br/>reasoning trace]
+    H --> I[critic_review<br/>Claude fact-check]
+    I --> J[ranked report +<br/>reasoning trace + critic flags]
 
     style H fill:#8A2BE2,color:#fff
-    style I fill:#2ea043,color:#fff
+    style I fill:#8A2BE2,color:#fff
+    style J fill:#2ea043,color:#fff
 ```
 
-Each node is a LangGraph step with typed state. The LLM is used where judgment is needed (phenotype matching, evidence weighting, final synthesis) — not where deterministic computation suffices (frequency filtering, score fetching). This is a deliberate design principle: **use agents for reasoning, not for arithmetic.**
+Each node is a LangGraph step with typed state. LLMs are used where judgment is needed (phenotype-weighted ranking, narrative synthesis, fact-checking) — not where deterministic computation suffices (frequency filtering, score fetching, rule application). This is a deliberate design principle: **use agents for reasoning, not for arithmetic.**
 
 ### Example output (excerpt)
 
@@ -75,7 +77,9 @@ disorders (HPO:0001250). SpliceAI additionally predicts a donor-site disruption
 at this position, strengthening the functional case...
 ```
 
-This is the **reasoning trace** — the core differentiator over rule-based tools like InterVar.
+This is the **reasoning trace** — the core differentiator over purely rule-based tools like [InterVar](https://wintervar.wglab.org/), and the core trust-building move over opaque one-shot LLM prompts.
+
+> **How this compares to prior art.** Tools like [InterVar](https://wintervar.wglab.org/), [CardioClassifier](https://www.cardioclassifier.org/), [PathoMAN](https://pathoman.mskcc.org/), and commercial platforms (Franklin, Fabric GEM) implement the full 28 ACMG/AMP criteria with expert-reviewed refinements — far beyond what this repo does. LLM-based efforts like [GeneGPT](https://github.com/ncbi-nlp/GeneGPT) (NCBI, 2024) and [VarChat](https://github.com/crs4/VarChat) show the tool-calling pattern is viable for genomics. `agentic-genomics` sits in a different niche: a small, readable, self-critiquing reference implementation for the *agentic* pattern — not a production interpreter. See [`LIMITATIONS.md`](./LIMITATIONS.md) for what's missing.
 
 ---
 
@@ -136,7 +140,7 @@ GenomicsCopilot is the first agent. The repo is structured to host more:
 
 | Agent | Status | What it does |
 |---|---|---|
-| **GenomicsCopilot** (variant interpretation) | 🟢 MVP | VCF + phenotype → ranked explainable variants |
+| **GenomicsCopilot** (variant interpretation) | 🟢 MVP | VCF + phenotype → ranked explainable variants, with a critic-reviewed report |
 | **NextflowAgent** | 🔵 Planned | Natural language → production Nextflow pipelines, self-healing |
 | **scRNA-Agent** | 🔵 Planned | `.h5ad` + question → Scanpy notebook + cell-type-aware answer |
 | **LitMiner** | 🔵 Planned | Gene/variant → PubMed + bioRxiv synthesis → testable hypotheses |

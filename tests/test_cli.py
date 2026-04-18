@@ -38,6 +38,8 @@ def test_cli_help_lists_interpret():
 
 def test_cli_interpret_happy_path(tmp_path, monkeypatch):
     """Run `agentic-genomics interpret ...` with all IO stubbed."""
+    from collections import Counter
+
     from agentic_genomics.agents.variant_interpreter import nodes as nodes_mod
     from agentic_genomics.agents.variant_interpreter.state import (
         ClinicalEvidence,
@@ -47,11 +49,25 @@ def test_cli_interpret_happy_path(tmp_path, monkeypatch):
     )
 
     class _FakeLLM:
-        def invoke(self, messages):
-            class _R:
-                content = "# Variant interpretation report\n\nStubbed output."
+        def __init__(self) -> None:
+            self.calls = 0
 
-            return _R()
+        def invoke(self, messages):
+            self.calls += 1
+
+            class _R:
+                pass
+
+            r = _R()
+            if self.calls == 1:
+                r.content = "# Variant interpretation report\n\nStubbed output."
+            else:
+                # Second call is the critic; return valid JSON.
+                r.content = (
+                    '{"verdict": "supported", '
+                    '"summary": "Nothing to flag.", "flags": []}'
+                )
+            return r
 
     monkeypatch.setattr(
         nodes_mod.myvariant, "fetch_variant_record", lambda v: {}
@@ -66,9 +82,13 @@ def test_cli_interpret_happy_path(tmp_path, monkeypatch):
         nodes_mod.myvariant, "extract_clinvar", lambda r: ClinicalEvidence()
     )
     monkeypatch.setattr(
+        nodes_mod.hpo, "build_annotation_corpus",
+        lambda _genes: (Counter(), 0),
+    )
+    monkeypatch.setattr(
         nodes_mod.hpo,
         "score_phenotype_match",
-        lambda gene, terms: PhenotypeMatch(match_strength="none"),
+        lambda gene, terms, **_kw: PhenotypeMatch(match_strength="none"),
     )
     monkeypatch.setattr(nodes_mod, "get_llm", lambda: _FakeLLM())
 
@@ -96,9 +116,10 @@ def test_cli_interpret_happy_path(tmp_path, monkeypatch):
         "ingest_variants",
         "annotate_evidence",
         "frequency_filter",
-        "phenotype_match",
+        "phenotype_score",
         "acmg_classify",
         "synthesize_report",
+        "critic_review",
     ]
 
 
