@@ -9,6 +9,7 @@
     <meta name="author" content="Ankur Sharma">
     <meta name="keywords" content="Machine Learning Engineer, Agentic AI, LLM Engineer, Research Engineer, LangGraph, Multi-Agent Systems, Genomics, Bioinformatics, AWS, Python, Singapore, Variant Interpretation, Clinical Genomics">
     <link rel="canonical" href="https://ankurgenomics.github.io/agentic-genomics/">
+    <link rel="alternate" type="text/plain" href="https://ankurgenomics.github.io/agentic-genomics/llms.txt" title="LLM-readable site summary">
 
     <meta property="og:type" content="website">
     <meta property="og:title" content="Ankur Sharma, PhD — Senior ML & Agentic AI Engineer">
@@ -34,51 +35,102 @@
     <link rel="stylesheet" href="styles.css">
 
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Ankur Sharma",
-      "honorificSuffix": "PhD",
-      "jobTitle": "Senior ML & Agentic AI Engineer",
-      "url": "https://ankurgenomics.github.io/agentic-genomics/",
-      "image": "https://ankurgenomics.github.io/agentic-genomics/assets/og-image.png",
-      "email": "mailto:ankurs103@gmail.com",
-      "sameAs": [
-        "https://www.linkedin.com/in/ankurit/",
-        "https://github.com/ankurgenomics",
-        "https://doi.org/10.32657/10356/155390"
-      ],
-      "knowsAbout": [
-        "Machine Learning",
-        "Agentic AI",
-        "Multi-Agent Systems",
-        "LangGraph",
-        "Clinical Genomics",
-        "Bioinformatics",
-        "Variant Interpretation",
-        "Cloud Infrastructure",
-        "AWS",
-        "Python"
-      ],
-      "description": "Senior ML & Agentic AI Engineer with a PhD and 8+ years building production multi-agent systems and reasoning-traceable AI for genomics and biomedicine. Based in Singapore.",
-      "address": {
-        "@type": "PostalAddress",
-        "addressCountry": "SG",
-        "addressLocality": "Singapore"
+    [
+      {
+        "@context": "https://schema.org",
+        "@type": "ProfilePage",
+        "mainEntity": {
+          "@type": "Person",
+          "@id": "https://ankurgenomics.github.io/agentic-genomics/#person",
+          "name": "Ankur Sharma",
+          "honorificSuffix": "PhD",
+          "jobTitle": "Senior ML & Agentic AI Engineer",
+          "url": "https://ankurgenomics.github.io/agentic-genomics/",
+          "image": "https://ankurgenomics.github.io/agentic-genomics/assets/og-image.png",
+          "email": "mailto:ankurs103@gmail.com",
+          "sameAs": [
+            "https://www.linkedin.com/in/ankurit/",
+            "https://github.com/ankurgenomics",
+            "https://doi.org/10.32657/10356/155390"
+          ],
+          "knowsAbout": [
+            "Machine Learning", "Agentic AI", "Multi-Agent Systems", "LangGraph",
+            "LLM Agents", "RAG", "Clinical Genomics", "Bioinformatics",
+            "Variant Interpretation", "ACMG Classification", "Cloud Infrastructure",
+            "AWS", "Python", "Nextflow", "Docker", "Regulatory Validation"
+          ],
+          "description": "Senior ML & Agentic AI Engineer with a PhD and 8+ years building production multi-agent systems and reasoning-traceable AI for genomics and biomedicine. Based in Singapore.",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "SG",
+            "addressLocality": "Singapore"
+          },
+          "alumniOf": {
+            "@type": "EducationalOrganization",
+            "name": "Nanyang Technological University",
+            "url": "https://www.ntu.edu.sg"
+          },
+          "hasOccupation": {
+            "@type": "Occupation",
+            "name": "ML & Agentic AI Engineer",
+            "occupationalCategory": "15-2051.00",
+            "skills": "LangGraph, Claude API, Multi-Agent Systems, RAG, Python, PyTorch, AWS, Nextflow, Clinical Genomics, DRAGEN, GATK"
+          },
+          "seeks": {
+            "@type": "Demand",
+            "name": "Senior/Staff ML Engineer, Agentic AI Engineer, Research Engineer, Applied Scientist roles"
+          }
+        }
       },
-      "alumniOf": {
-        "@type": "EducationalOrganization",
-        "name": "Nanyang Technological University",
-        "url": "https://www.ntu.edu.sg"
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareSourceCode",
+        "name": "agentic-genomics (GenomicsCopilot)",
+        "description": "Open-source LangGraph agent for reasoning-traceable variant interpretation. 7 deterministic nodes including VCF ingest, gnomAD/ClinVar annotation, ACMG-lite classification with PVS1 and Richards 2015 combining rules, Phrank HPO scoring, LLM synthesis, and critic fact-checking. Every run produces a machine-readable reasoning trace.",
+        "url": "https://github.com/ankurgenomics/agentic-genomics",
+        "codeRepository": "https://github.com/ankurgenomics/agentic-genomics",
+        "programmingLanguage": "Python",
+        "license": "https://opensource.org/licenses/MIT",
+        "author": {"@id": "https://ankurgenomics.github.io/agentic-genomics/#person"},
+        "runtimePlatform": "Python 3.11+",
+        "keywords": ["LangGraph", "variant interpretation", "ACMG", "genomics AI", "multi-agent", "Claude API", "reasoning trace", "open source"]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareSourceCode",
+        "name": "genomics-skills (Agent-Callable Skill Library)",
+        "description": "8 pure-Python agent-callable genomics skills: TCGA pan-cancer expression (9,479 real samples), Kaplan-Meier survival, GO/KEGG enrichment, PubMed search, protein variant mapping, 3D structure viewing, volcano plots. Each skill has a SKILL.md contract, CLI entrypoint, and deterministic TSV+PNG output. LLM routing via Claude Haiku.",
+        "url": "https://github.com/ankurgenomics/genomics-skills",
+        "codeRepository": "https://github.com/ankurgenomics/genomics-skills",
+        "programmingLanguage": "Python",
+        "license": "https://opensource.org/licenses/MIT",
+        "author": {"@id": "https://ankurgenomics.github.io/agentic-genomics/#person"},
+        "runtimePlatform": "Python 3.9+",
+        "keywords": ["genomics skills", "TCGA", "survival analysis", "agent tools", "Claude Haiku", "cBioPortal", "bioinformatics"]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Ankur Sharma, PhD — Senior ML & Agentic AI Engineer Portfolio",
+        "url": "https://ankurgenomics.github.io/agentic-genomics/",
+        "description": "Portfolio of Ankur Sharma, a Senior ML & Agentic AI Engineer specialising in multi-agent systems, reasoning-traceable AI, and clinical genomics. PhD, 8+ years production experience, Singapore.",
+        "inLanguage": "en",
+        "isPartOf": {
+          "@type": "WebSite",
+          "url": "https://ankurgenomics.github.io/agentic-genomics/",
+          "name": "Ankur Sharma Portfolio"
+        },
+        "about": {"@id": "https://ankurgenomics.github.io/agentic-genomics/#person"},
+        "mainEntity": {"@id": "https://ankurgenomics.github.io/agentic-genomics/#person"}
       }
-    }
+    ]
     </script>
 </head>
 <body>
     <header class="header">
         <div class="container header-content">
             <a href="#top" class="logo">ANKUR<span class="dot">.</span>SHARMA</a>
-            <nav>
+            <nav aria-label="Main navigation">
                 <ul>
                     <li><a href="#about">About</a></li>
                     <li><a href="#projects">Projects</a></li>
@@ -91,6 +143,7 @@
         </div>
     </header>
 
+    <main>
     <section class="hero" id="top">
         <div class="container">
             <div class="eyebrow"><span class="pulse"></span> Open to ML · Agentic AI · Research Engineer roles</div>
@@ -553,6 +606,53 @@
             </div>
         </div>
     </section>
+
+    <section class="sr-only" aria-label="Frequently asked questions about Ankur Sharma" itemscope itemtype="https://schema.org/FAQPage">
+        <h2>Frequently Asked Questions</h2>
+
+        <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+            <h3 itemprop="name">Who is Ankur Sharma and what does he do?</h3>
+            <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                <p itemprop="text">Ankur Sharma is a Senior ML and Agentic AI Engineer with a PhD from NTU Singapore and 8+ years of experience. He builds production multi-agent AI systems and reasoning-traceable AI for genomics and biomedicine. He is based in Singapore and open to senior ML, agentic AI, and research engineer roles worldwide.</p>
+            </div>
+        </div>
+
+        <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+            <h3 itemprop="name">What is agentic-genomics?</h3>
+            <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                <p itemprop="text">agentic-genomics (GenomicsCopilot) is an open-source LangGraph agent for reasoning-traceable variant interpretation. It takes VCF files and HPO phenotype terms and returns ranked, explainable reports of candidate genetic variants. It uses 7 deterministic nodes including ACMG-lite classification, Phrank HPO scoring, and a critic LLM for fact-checking. Available at github.com/ankurgenomics/agentic-genomics under the MIT license.</p>
+            </div>
+        </div>
+
+        <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+            <h3 itemprop="name">What is genomics-skills?</h3>
+            <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                <p itemprop="text">genomics-skills is a library of 8 agent-callable Python genomics tools: TCGA pan-cancer expression analysis (9,479 real patient samples), Kaplan-Meier survival analysis, GO/KEGG enrichment, PubMed search, protein variant mapping, 3D structure viewing, and volcano plots. Each skill has a SKILL.md contract and CLI entrypoint. LLM routing via Claude Haiku. Available at github.com/ankurgenomics/genomics-skills.</p>
+            </div>
+        </div>
+
+        <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+            <h3 itemprop="name">What technologies does Ankur Sharma work with?</h3>
+            <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                <p itemprop="text">Core technologies: LangGraph, Claude/Anthropic API, multi-agent orchestration, RAG, Python, PyTorch, scikit-learn, AWS (Batch, Lambda, S3, Step Functions), Nextflow, Docker, GitHub Actions. Domain expertise: clinical genomics (WGS/WES/RNA-seq/ChIP-seq), DRAGEN, GATK, variant interpretation, ACMG classification, regulatory validation (DVT, FDA compliance, HIPAA).</p>
+            </div>
+        </div>
+
+        <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+            <h3 itemprop="name">Is Ankur Sharma available for hire?</h3>
+            <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                <p itemprop="text">Yes. Ankur Sharma is open to Senior/Staff ML Engineer, Agentic AI Engineer, Research Engineer, and Applied Scientist roles. He is based in Singapore as a Permanent Resident and is open to remote work or relocation for the right team. Contact: ankurs103@gmail.com or linkedin.com/in/ankurit.</p>
+            </div>
+        </div>
+
+        <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+            <h3 itemprop="name">What results has Ankur Sharma achieved in production?</h3>
+            <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                <p itemprop="text">Key results: built a 5-agent AI system (GenomicsOps AI) that reduced pipeline failure resolution time by 67% (from 3 days to 2 hours). Architected cloud genomics pipelines processing 6,000+ samples with 40% lower compute costs, 50% less storage, and 400 TB of data managed. Led clinical validation for oncology and prenatal diagnostic products with FDA compliance.</p>
+            </div>
+        </div>
+    </section>
+    </main>
 
     <footer>
         <div class="container">

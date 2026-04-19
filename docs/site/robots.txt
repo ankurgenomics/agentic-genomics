@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ankurgenomics.github.io/agentic-genomics/sitemap.xml

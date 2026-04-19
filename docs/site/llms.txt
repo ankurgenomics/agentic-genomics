@@ -1,0 +1,77 @@
+# Ankur Sharma, PhD
+
+> Senior ML & Agentic AI Engineer building reasoning-traceable AI systems for genomics and biomedicine. PhD, 8+ years production experience. Based in Singapore.
+
+## About
+
+Ankur Sharma is a Senior ML & Agentic AI Engineer with a PhD in Biological Sciences from Nanyang Technological University (NTU), Singapore. He has 8+ years of experience shipping production machine learning systems, multi-agent AI, and cloud infrastructure across clinical diagnostics and genomics.
+
+He specialises in building multi-agent AI systems — autonomous software where multiple AI agents collaborate to solve complex scientific and engineering problems. His work spans agentic AI for variant interpretation, production multi-agent systems for pipeline diagnostics, and self-optimising cloud genomics infrastructure.
+
+He is open to Senior/Staff ML Engineer, Agentic AI Engineer, Research Engineer, and Applied Scientist roles. Based in Singapore (PR), open to remote or relocation.
+
+## Contact
+
+- Email: ankurs103@gmail.com
+- LinkedIn: https://www.linkedin.com/in/ankurit/
+- GitHub: https://github.com/ankurgenomics
+- Portfolio: https://ankurgenomics.github.io/agentic-genomics/
+- Resume (PDF): https://ankurgenomics.github.io/agentic-genomics/assets/Ankur_Sharma_Resume_2026.pdf
+
+## Open-Source Projects
+
+### agentic-genomics (GenomicsCopilot)
+
+- URL: https://github.com/ankurgenomics/agentic-genomics
+- License: MIT
+- Language: Python 3.11+
+- Stack: LangGraph, Claude/Anthropic API, Pydantic v2, pysam, Streamlit, Typer CLI
+
+An open-source LangGraph agent for reasoning-traceable variant interpretation. Takes a VCF file and HPO phenotype terms and returns a ranked, explainable report of candidate genetic variants. The system has 7 deterministic nodes: VCF ingest, gnomAD/ClinVar/SpliceAI annotation via MyVariant.info, frequency filtering, Phrank-style HPO semantic-similarity scoring, ACMG-lite classification (PVS1 with LoF-intolerance gating, Richards et al. 2015 combining rules), LLM synthesis, and an LLM critic that fact-checks claims against the evidence JSON. Every run produces a machine-readable reasoning trace. This is a research demonstration, not a clinical tool. See LIMITATIONS.md for an honest accounting of scope.
+
+### genomics-skills (Agent-Callable Skill Library)
+
+- URL: https://github.com/ankurgenomics/genomics-skills
+- License: MIT
+- Language: Python 3.9+
+- Stack: Python, Claude Haiku (LLM routing), cBioPortal/MyVariant/NCBI/PDB APIs, Pandas, Matplotlib
+
+8 pure-Python agent-callable genomics skills: TCGA pan-cancer expression (9,479 real patient samples across 31 cancer types via cBioPortal), Kaplan-Meier survival analysis (Cox PH regression), GO/KEGG pathway enrichment, PubMed literature search, protein variant mapper, 3D protein structure viewer, and volcano plots. Each skill has a SKILL.md contract, CLI entrypoint, and deterministic output (TSV + PNG/SVG). LLM-powered routing via Claude Haiku maps natural-language queries to the right skill. Parquet caching for instant repeat queries.
+
+## Production Work
+
+### GenomicsOps AI (Internal)
+
+A 5-agent system that autonomously triages DRAGEN, ICA, and SGE/HPC genomic pipeline failures. Agents: Trigger, Log Fetcher, RAG, Classifier, JIRA Writer. Reduced Mean Time To Resolution by 67% (3 days to 2 hours). Won an internal hackathon. Built with multi-agent orchestration, Claude API, RAG, Python, JIRA/Confluence APIs.
+
+### Autonomous Genomic Pipelines
+
+Self-optimising WGS/RNA-seq workflows on AWS for a national precision medicine programme. Processed 6,000+ samples with minimal human intervention. Results: 40% lower compute costs, 50% less storage, 400 TB of genomic data managed. Stack: Nextflow (DSL2), AWS Batch, Lambda, Step Functions, Docker, Infrastructure as Code.
+
+## Technical Skills
+
+### Core
+- Agentic AI: LangGraph, Claude/Anthropic API, Multi-Agent Orchestration, RAG, Tool-Calling Agents
+- ML: Python, scikit-learn, PyTorch, Pandas/NumPy, Statistical Modelling, Feature Engineering
+- Cloud: AWS (Batch, Lambda, S3, Step Functions), Nextflow, Docker, GitHub Actions, IaC
+- Genomics: NGS (WGS/WES/RNA-seq/ChIP-seq), DRAGEN, GATK, Variant Interpretation, ACMG Guidelines
+
+### Frequent
+- OpenAI API, RAG & Vector Stores, MLflow, Kubernetes, R/Bioconductor, Snakemake
+- Regulatory: DVT, Clinical Validation (LOD, Sensitivity, Specificity), FDA Compliance, cGMP, HIPAA
+
+## Education
+
+- PhD in Biological Sciences — Nanyang Technological University, Singapore (2016–2021). Thesis: Age-dependent transcriptional and epigenetic alterations in mouse hepatocytes. DOI: 10.32657/10356/155390
+- M.Tech in Biotechnology — Anna University, India (2013–2015)
+- B.Tech in Biotechnology — UPTU, India (2007–2011)
+
+## Publications
+
+- Sharma, A. (2021). Age-dependent transcriptional and epigenetic alterations in mouse hepatocytes. PhD thesis, NTU. DOI: 10.32657/10356/155390
+- Kumari M, Taritla S, Sharma A, Jayabaskaran C. (2018). Antiproliferative and antioxidative bioactive compounds in extracts of marine-derived endophytic fungus. Frontiers in Microbiology.
+- Sharma A. (2019). Significance of hepatocyte polyploidization in liver physiology and pathology. Conference poster, Cell Symposia, Chicago.
+
+## Keywords
+
+Ankur Sharma, agentic AI engineer, LangGraph developer, multi-agent systems, genomics AI, bioinformatics ML engineer, variant interpretation AI, clinical genomics, Singapore ML engineer, production ML, reasoning-traceable AI, open-source genomics tools, ACMG classification, LLM agent developer, Claude API, AWS genomics pipelines, Nextflow, research engineer Singapore
