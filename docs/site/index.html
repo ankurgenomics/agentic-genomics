@@ -53,7 +53,7 @@
             </p>
             <div class="cta-row">
                 <a href="#projects" class="btn btn-primary">See projects <span class="arrow">→</span></a>
-                <a href="assets/Ankur_Sharma_Resume_2026.docx" class="btn btn-ghost" download>Download CV</a>
+                <a href="assets/Ankur_Sharma_Resume_2026.pdf" class="btn btn-ghost" download>Download CV (PDF)</a>
                 <a href="https://github.com/ankurgenomics" target="_blank" rel="noopener" class="btn btn-ghost">GitHub</a>
                 <a href="https://www.linkedin.com/in/ankurit/" target="_blank" rel="noopener" class="btn btn-ghost">LinkedIn</a>
                 <a href="mailto:ankurs103@gmail.com" class="btn btn-ghost">Email</a>
@@ -85,7 +85,7 @@
             <div class="section-head">
                 <div class="section-kicker">// Selected work</div>
                 <h2 class="section-title">Agents, pipelines, and research projects</h2>
-                <p class="section-sub">Four projects that cover the range: open-source agentic AI, production multi-agent systems, self-optimising ML pipelines, and applied research. Each links to code, a demo, or a writeup where possible.</p>
+                <p class="section-sub">Five projects that cover the range: open-source agentic AI, agent-callable genomics tools, production multi-agent systems, self-optimising ML pipelines, and applied research. Each links to code, a demo, or a writeup where possible.</p>
             </div>
 
             <div class="projects-grid">
@@ -156,8 +156,35 @@
 
                 <article class="project reveal">
                     <div class="badges">
-                        <span class="badge badge-prod">Production · Internal</span>
+                        <span class="badge badge-featured">Open source · Agent skills</span>
+                        <span class="badge badge-oss">Python · Claude Haiku · REST APIs</span>
                     </div>
+                    <h3>genomics-skills — Agent-Callable Skill Library</h3>
+                    <p class="project-hook">8 pure-Python genomics skills that downstream agents can call: expression profiling, survival analysis, protein mapping, pathway enrichment, literature search, and more.</p>
+                    <p class="project-desc">
+                        The downstream skill layer for agentic-genomics. Each skill is a standalone, agent-discoverable Python module with a SKILL.md contract, CLI entrypoint, and deterministic output (TSV + PNG/SVG). Pan-cancer expression uses real TCGA data (9,479 samples across 31 cancer types via cBioPortal). Kaplan-Meier survival runs Cox PH regression on actual patient data. LLM-powered routing via Claude Haiku maps natural-language queries to the right skill. Parquet caching makes repeat queries instant.
+                    </p>
+                    <div class="metric-row">
+                        <div class="metric"><div class="val">8 skills</div><div class="lbl">Agent-callable, SKILL.md contract each</div></div>
+                        <div class="metric"><div class="val">9,479</div><div class="lbl">Real TCGA patient samples</div></div>
+                        <div class="metric"><div class="val">MIT</div><div class="lbl">Open source, Python 3.9+</div></div>
+                    </div>
+                    <div class="tech">
+                        <span class="tag">Python</span>
+                        <span class="tag">Claude Haiku</span>
+                        <span class="tag">cBioPortal API</span>
+                        <span class="tag">MyVariant.info</span>
+                        <span class="tag">NCBI E-utils</span>
+                        <span class="tag">PDB / AlphaFold</span>
+                        <span class="tag">Pandas</span>
+                        <span class="tag">Matplotlib</span>
+                    </div>
+                    <div class="project-links">
+                        <a class="project-link" href="https://github.com/ankurgenomics/genomics-skills" target="_blank" rel="noopener">→ GitHub repo</a>
+                    </div>
+                </article>
+
+                <article class="project reveal">
                     <h3>GenomicsOps AI</h3>
                     <p class="project-hook">Five specialized agents that triage and resolve DRAGEN, ICA and SGE/HPC pipeline failures end-to-end.</p>
                     <p class="project-desc">
@@ -467,9 +494,9 @@
                         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.95v5.66H9.36V9h3.41v1.56h.05c.48-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 11.01-4.12 2.06 2.06 0 01-.01 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.78C.8 0 0 .78 0 1.74v20.52C0 23.22.8 24 1.78 24h20.44c.98 0 1.78-.78 1.78-1.74V1.74C24 .78 23.2 0 22.22 0z"/></svg>
                         linkedin.com/in/ankurit
                     </a>
-                    <a href="assets/Ankur_Sharma_Resume_2026.docx" class="contact-item" download>
+                    <a href="assets/Ankur_Sharma_Resume_2026.pdf" class="contact-item" download>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-                        Download CV
+                        Download CV (PDF)
                     </a>
                 </div>
                 <p style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-muted);">Based in Singapore (PR) · Open to remote or relocation for the right team.</p>

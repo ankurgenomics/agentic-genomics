@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Ankur Sharma — Resume</title>
+<style>
+@page { size: A4; margin: 14mm 16mm 14mm 16mm; }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 9.5pt;
+  line-height: 1.38;
+  color: #1a1a1a;
+}
+
+a { color: #1a1a1a; text-decoration: none; }
+
+h1 {
+  font-size: 18pt;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 2pt;
+}
+
+.subtitle {
+  font-size: 10.5pt;
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 3pt;
+}
+
+.contact-line {
+  font-size: 8.5pt;
+  color: #444;
+  margin-bottom: 10pt;
+}
+
+.contact-line a { color: #0066cc; }
+
+h2 {
+  font-size: 11pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 1.5px solid #1a1a1a;
+  padding-bottom: 2pt;
+  margin-top: 10pt;
+  margin-bottom: 5pt;
+}
+
+h3 {
+  font-size: 9.5pt;
+  font-weight: 700;
+  margin-bottom: 1pt;
+}
+
+.role-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.role-line .dates {
+  font-size: 8.5pt;
+  color: #555;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.org {
+  font-size: 9pt;
+  color: #444;
+  margin-bottom: 3pt;
+}
+
+ul {
+  margin-left: 14pt;
+  margin-bottom: 6pt;
+}
+
+li { margin-bottom: 1.5pt; }
+
+.skills-block { margin-bottom: 3pt; }
+.skills-block strong { font-size: 9pt; }
+
+.project-entry { margin-bottom: 6pt; }
+.project-entry .proj-title { font-weight: 700; font-size: 9.5pt; }
+.project-entry .proj-url { font-size: 8pt; color: #0066cc; }
+.project-entry .proj-desc { margin-top: 1pt; }
+
+.two-col {
+  display: flex;
+  gap: 24pt;
+}
+
+.two-col .col { flex: 1; }
+
+.edu-entry { margin-bottom: 4pt; }
+.edu-entry .degree { font-weight: 600; }
+.edu-entry .school { font-size: 8.5pt; color: #444; }
+
+.pub-entry { margin-bottom: 3pt; font-size: 9pt; }
+</style>
+</head>
+<body>
+
+<h1>ANKUR SHARMA, PhD</h1>
+<div class="subtitle">Senior ML &amp; Agentic AI Engineer | Bioinformatics | Cloud Architecture</div>
+<div class="contact-line">
+  <a href="mailto:ankurs103@gmail.com">ankurs103@gmail.com</a> ·
+  +65 8402 6093 ·
+  Singapore (PR) ·
+  <a href="https://linkedin.com/in/ankurit">LinkedIn</a> ·
+  <a href="https://github.com/ankurgenomics">GitHub</a> ·
+  <a href="https://ankurgenomics.github.io/agentic-genomics/">Portfolio</a>
+</div>
+
+<h2>Professional Summary</h2>
+<p>
+  Senior ML and Agentic AI Engineer with 8+ years shipping production systems across clinical genomics, cloud infrastructure, and machine learning. Built multi-agent systems that cut mean time to resolution by 67%, cloud pipelines processing 6,000+ genomic samples at 40% lower compute cost, and open-source agentic AI tooling for variant interpretation. PhD in Biological Sciences (NTU Singapore). Seeking Senior/Staff ML Engineer, Agentic AI Engineer, or Research Engineer roles.
+</p>
+
+<h2>Technical Skills</h2>
+<div class="skills-block">
+  <strong>Agentic AI &amp; LLMs:</strong> LangGraph, LangChain, Claude/Anthropic API, OpenAI GPT-4, multi-agent orchestration, RAG, tool-calling/function agents, prompt engineering, LLM routing, Pydantic v2
+</div>
+<div class="skills-block">
+  <strong>Machine Learning &amp; Data Science:</strong> Python, scikit-learn, PyTorch, Pandas, NumPy, SciPy, statistical modelling, survival analysis (Cox PH), feature engineering, MLflow, Seaborn/Matplotlib
+</div>
+<div class="skills-block">
+  <strong>Cloud &amp; Infrastructure:</strong> AWS (EC2, S3, Lambda, Batch, Step Functions, DynamoDB, RDS), Docker, Nextflow (DSL2), CI/CD (GitHub Actions), IaC (CloudFormation/CDK), Kubernetes
+</div>
+<div class="skills-block">
+  <strong>Bioinformatics &amp; Genomics:</strong> NGS (WGS, WES, RNA-seq, ChIP-seq, WGMS, single-cell, spatial), DRAGEN, GATK, samtools, bcftools, pysam, variant calling &amp; interpretation, ACMG/AMP, R/Bioconductor, Snakemake
+</div>
+<div class="skills-block">
+  <strong>Regulatory &amp; Clinical:</strong> Design Verification Testing (DVT), clinical validation (sensitivity, specificity, LOD), FDA compliance, cGMP, SOPs, HIPAA
+</div>
+
+<h2>Open-Source Projects</h2>
+
+<div class="project-entry">
+  <div class="role-line">
+    <span class="proj-title">agentic-genomics — GenomicsCopilot</span>
+    <span class="proj-url"><a href="https://github.com/ankurgenomics/agentic-genomics">github.com/ankurgenomics/agentic-genomics</a></span>
+  </div>
+  <div class="proj-desc">
+    LangGraph agent for explainable variant interpretation. 7-node pipeline: VCF ingest → MyVariant.info annotation (gnomAD, ClinVar, SpliceAI) → frequency filter → Phrank-style HPO semantic similarity scoring → ACMG-lite classification (PVS1 with LoF-intolerance gating, Richards 2015 Table 5 combining rules) → LLM synthesiser → LLM critic that fact-checks claims against evidence JSON. Every run emits a machine-readable reasoning trace. 51 tests, 81% coverage, CI/CD via GitHub Actions.
+  </div>
+  <div class="proj-desc" style="font-size: 8.5pt; color: #444; margin-top: 1pt;">
+    <strong>Stack:</strong> LangGraph, Claude API, Pydantic v2, pysam, Streamlit, Typer CLI, pytest, ruff
+  </div>
+</div>
+
+<div class="project-entry">
+  <div class="role-line">
+    <span class="proj-title">genomics-skills — Agent-Callable Genomics Skill Library</span>
+    <span class="proj-url"><a href="https://github.com/ankurgenomics/genomics-skills">github.com/ankurgenomics/genomics-skills</a></span>
+  </div>
+  <div class="proj-desc">
+    Modular library of 8 pure-Python skills for downstream genomics analysis: pan-cancer expression profiling (TCGA, 9,479 samples), Kaplan-Meier survival analysis (Cox PH regression), GO/KEGG pathway enrichment, PubMed literature search with NLP digest, protein variant mapping (AlphaFold/PDB), 3D structure viewing, and publication-quality volcano plots. LLM-powered skill routing via Claude Haiku. Parquet caching for instant repeat queries.
+  </div>
+  <div class="proj-desc" style="font-size: 8.5pt; color: #444; margin-top: 1pt;">
+    <strong>Stack:</strong> Python, Claude API (LLM routing), cBioPortal/MyVariant/NCBI/PDB REST APIs, Pandas, Matplotlib, pytest (14 tests)
+  </div>
+</div>
+
+<h2>Professional Experience</h2>
+
+<div class="role-line">
+  <h3>Senior Scientist, Bioinformatics</h3>
+  <span class="dates">Jul 2025 – Present</span>
+</div>
+<div class="org">Illumina · Singapore</div>
+<ul>
+  <li>Designed and prototyped <strong>GenomicsOps AI</strong>, a 5-agent system (Trigger → Log Fetcher → RAG → Classifier → JIRA Writer) for autonomous diagnosis of DRAGEN, ICA, and SGE/HPC pipeline failures — reduced mean time to resolution by <strong>67% (3 days → 2 hours)</strong>. Won internal hackathon.</li>
+  <li>Lead <strong>Design Verification Testing (DVT)</strong> and regulatory validation for TSO500, NIPT16, and VeriSeq diagnostic products — ensuring FDA compliance and clinical-deployment quality.</li>
+  <li>Designed clinical concordance studies measuring sensitivity, specificity, accuracy, LOD, and reproducibility for regulatory submissions.</li>
+  <li>Optimised TruSight Oncology 500 assay workflows for comprehensive genomic profiling in oncology; contributed to NIPT16 prenatal testing validation.</li>
+</ul>
+
+<div class="role-line">
+  <h3>Senior Scientist — Bioinformatics &amp; Cloud</h3>
+  <span class="dates">Jan 2022 – Jul 2025</span>
+</div>
+<div class="org">Mirxes · Singapore</div>
+<ul>
+  <li>Built production-grade cloud data-analysis pipelines: <strong>40% ↓ compute cost, 50% ↓ storage footprint, 30% ↓ turnaround time</strong>.</li>
+  <li>Processed <strong>6,000+ genomic samples</strong> with standardised Nextflow workflows and rigorous QC on AWS.</li>
+  <li>Architected AWS infrastructure integrating <strong>15 services</strong> (Batch, Lambda, Step Functions, S3, DynamoDB) to manage <strong>400 TB</strong> of genomic data.</li>
+  <li>Led team of 5 scientists delivering clinical diagnostic assay workflows across cancer types — 33% ↓ analysis time.</li>
+  <li>Technical lead for the <strong>Singapore National Precision Medicine</strong> project; identified SGD 0.5M in business opportunities.</li>
+</ul>
+
+<div class="role-line">
+  <h3>Scientist, Assay Development</h3>
+  <span class="dates">Jul 2021 – Dec 2021</span>
+</div>
+<div class="org">Vela Diagnostics · Singapore</div>
+<ul>
+  <li>Implemented automated verification procedures and QC protocols; maintained regulatory documentation (NCR, CAPA, DR).</li>
+  <li>Developed testing framework that cut non-conformance reports by 30% and lifted product quality by 15%.</li>
+</ul>
+
+<div class="role-line">
+  <h3>PhD Research Fellow, Biological Sciences</h3>
+  <span class="dates">2016 – 2021</span>
+</div>
+<div class="org">Nanyang Technological University · Singapore</div>
+<ul>
+  <li>Multi-omic study (RNA-seq, ChIP-seq, Hi-C) of age-dependent transcriptional and epigenetic alterations in mouse hepatocytes.</li>
+  <li>Built reproducible NGS analysis pipelines for transcriptome, histone modifications, and 3D chromatin data.</li>
+  <li>Head of NTU 3-Minute Thesis team (23 members, Nanyang Awards); led operations for TEDxNTU (78-person team, 1,500+ audience).</li>
+</ul>
+
+<div class="role-line">
+  <h3>Technical Supervisor</h3>
+  <span class="dates">2011 – 2013</span>
+</div>
+<div class="org">Zydus Cadila Healthcare Ltd. · Ahmedabad, India</div>
+<ul>
+  <li>Developed process-validation and QC pipelines for 13 pharmaceutical products under cGMP guidelines — 30% ↑ efficiency, 10% ↓ processing time.</li>
+</ul>
+
+<h2>Education</h2>
+
+<div class="edu-entry">
+  <span class="degree">PhD in Biological Sciences</span> — Nanyang Technological University, Singapore (2016–2021)<br>
+  <span class="school">Dissertation: Age-dependent transcriptional and epigenetic alterations in mouse hepatocytes · <a href="https://doi.org/10.32657/10356/155390">DOI: 10.32657/10356/155390</a></span>
+</div>
+<div class="edu-entry">
+  <span class="degree">M.Tech in Biotechnology</span> — Anna University, India (2013–2015)
+</div>
+<div class="edu-entry">
+  <span class="degree">B.Tech in Biotechnology</span> — Uttar Pradesh Technical University, India (2007–2011)
+</div>
+
+<h2>Publications</h2>
+
+<div class="pub-entry">
+  Sharma, A. (2021). <em>Age-dependent transcriptional and epigenetic alterations in mouse hepatocytes.</em> PhD Dissertation, NTU Singapore. <a href="https://doi.org/10.32657/10356/155390">DOI</a>
+</div>
+<div class="pub-entry">
+  Sharma, A. et al. (2019). Significance of hepatocyte polyploidization in liver physiology and pathology. <em>Cell Symposia, Chicago.</em>
+</div>
+<div class="pub-entry">
+  Kumari, M., Taritla, S., <strong>Sharma, A.</strong>, &amp; Jayabaskaran, C. (2018). Antiproliferative and antioxidative bioactive compounds in marine-derived endophytic fungus. <em>Frontiers in Microbiology.</em>
+</div>
+
+</body>
+</html>
