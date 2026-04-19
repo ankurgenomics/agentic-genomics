@@ -225,35 +225,10 @@
                         </div>
                     </div>
                     <div>
-<pre class="ascii-diagram">
-  <span class="hl2">VCF</span> + <span class="hl2">HPO terms</span>
-       │
-       ▼
-  ingest_variants        <span class="hl">[deterministic]</span>
-       │
-       ▼
-  annotate_evidence      <span class="hl">[MyVariant tool]</span>
-       │
-       ▼
-  frequency_filter       <span class="hl">[gnomAD &lt; 1%]</span>
-       │
-       ▼
-  phenotype_score        <span class="hl">[Phrank HPO sim]</span>
-       │
-       ▼
-  acmg_lite_classify     <span class="hl">[PVS1 + Richards 2015]</span>
-       │
-       ▼
-  synthesize_report      <span class="hl">[Claude LLM]</span>
-       │
-       ▼
-  critic_review          <span class="hl">[Claude LLM · fact-check]</span>
-       │
-       ▼
-   <span class="hl2">ranked markdown report</span>
-   <span class="hl2">+ reasoning trace (JSON)</span>
-   <span class="hl2">+ critic flags</span>
-</pre>
+                        <img src="assets/architecture-diagram.png"
+                             alt="GenomicsCopilot pipeline: VCF + HPO → ingest_variants → annotate_evidence → frequency_filter → phenotype_score → acmg_classify → synthesize_report → critic_review → ranked report"
+                             loading="lazy"
+                             style="width: 100%; max-width: 480px; border-radius: 12px; margin: 0 auto; display: block;">
                     </div>
                 </article>
 

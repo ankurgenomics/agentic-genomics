@@ -25,6 +25,11 @@ agentic-genomics/
 
 ## The `variant_interpreter` graph
 
+![GenomicsCopilot Pipeline](architecture-diagram.png)
+
+<details>
+<summary>Mermaid source (click to expand)</summary>
+
 ```mermaid
 flowchart TD
     A[VCF + HPO terms] --> B[ingest_variants]
@@ -40,6 +45,8 @@ flowchart TD
     style H fill:#8A2BE2,color:#fff
     style I fill:#2ea043,color:#fff
 ```
+
+</details>
 
 **Orchestration is deterministic**; only `synthesize_report` and `critic_review` call an LLM. The critic node is the one genuinely agentic loop: it sees the same evidence JSON the synthesiser saw, plus the synthesiser's draft, and returns structured flags for any unsupported claims. This is a deliberate, conservative take on the agent pattern (see [`why-agentic.md`](./why-agentic.md#use-llms-for-reasoning-not-arithmetic) and [`../LIMITATIONS.md`](../LIMITATIONS.md#5-what-the-agent-is-and-is-not)).
 
