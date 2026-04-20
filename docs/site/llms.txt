@@ -40,9 +40,9 @@ An open-source LangGraph agent for reasoning-traceable variant interpretation. T
 
 ## Production Work
 
-### GenomicsOps AI (Internal)
+### GenomicsOps AI (Personal Project)
 
-A 5-agent system that autonomously triages DRAGEN, ICA, and SGE/HPC genomic pipeline failures. Agents: Trigger, Log Fetcher, RAG, Classifier, JIRA Writer. Reduced Mean Time To Resolution by 67% (3 days to 2 hours). Won an internal hackathon. Built with multi-agent orchestration, Claude API, RAG, Python, JIRA/Confluence APIs.
+A 5-agent system that autonomously triages DRAGEN, ICA, and SGE/HPC genomic pipeline failures. Agents: Trigger, Log Fetcher, RAG, Classifier, JIRA Writer. Reduced Mean Time To Resolution by 67% (3 days to 2 hours). Personal side project built on weekends. Built with multi-agent orchestration, Claude API, RAG, Python, JIRA/Confluence APIs.
 
 ### Autonomous Genomic Pipelines
 
