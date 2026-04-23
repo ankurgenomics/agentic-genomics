@@ -63,7 +63,7 @@ Self-optimising WGS/RNA-seq workflows on AWS for a national precision medicine p
 ## Education
 
 - PhD in Biological Sciences — Nanyang Technological University, Singapore (2016–2021). Thesis: Age-dependent transcriptional and epigenetic alterations in mouse hepatocytes. DOI: 10.32657/10356/155390
-- M.Tech in Biotechnology — Anna University, India (2013–2015)
+- M.Tech Biotechnology (2013–2015)
 - B.Tech in Biotechnology — UPTU, India (2007–2011)
 
 ## Publications
