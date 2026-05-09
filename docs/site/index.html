@@ -241,7 +241,7 @@
                     <h3>outbreak-agent -- Infectious Disease Triage Pipeline</h3>
                     <p class="project-hook">4-node LangGraph state machine that triages infectious disease cases -- built around the April 2026 MV Hondius / Andes virus event, the first confirmed human-to-human hantavirus transmission on a cruise ship.</p>
                     <p class="project-desc">
-                        A self-correcting agentic pipeline: genomic_node identifies clade and mutations, linkage_node resolves contact clusters and transmission mode, risk_node scores 0-100 with tier (LOW / MEDIUM / HIGH / CRITICAL), and critic_node enforces four consistency rules -- looping back up to 3 times if flags are raised. Generates a 3-panel matplotlib risk dashboard (PNG) and a structured A4 PDF triage report automatically on every run. No API key. No cost. 33 tests, fully deterministic.
+                        A self-correcting agentic pipeline: genomic_node identifies clade and mutations, linkage_node resolves contact clusters and transmission mode, risk_node scores 0-100 with tier (LOW / MEDIUM / HIGH / CRITICAL), and critic_node enforces four consistency rules -- looping back up to 3 times if flags are raised. Generates a 3-panel matplotlib risk dashboard (PNG) and a structured A4 PDF triage report automatically on every run. No API key. No cost. 33 tests, fully deterministic. Part of the same ecosystem as gwas_nf: <code>gwas_bridge.py</code> feeds REGENIE tophits directly into this triage pipeline for population-to-clinical interpretation.
                     </p>
                     <div class="metric-row">
                         <div class="metric"><div class="val">4 nodes</div><div class="lbl">genomic / linkage / risk / critic</div></div>
@@ -315,28 +315,30 @@
 
                 <article class="project reveal">
                     <div class="badges">
-                        <span class="badge badge-prod">Production · Cloud</span>
+                        <span class="badge badge-prod">Open source · Production · Cloud</span>
+                        <span class="badge badge-oss">Nextflow · REGENIE · AWS</span>
                     </div>
-                    <h3>Autonomous Genomic Pipelines</h3>
-                    <p class="project-hook">Self-optimising WGS/RNA-seq workflows on AWS with adaptive resource allocation and automated QC gating.</p>
+                    <h3>gwas_nf — Multi-Ethnic GWAS Pipeline</h3>
+                    <p class="project-hook">REGENIE-based Nextflow GWAS pipeline for the TEMUS multi-ethnic cohort (4 groups, 10,000 samples, 100,000 variants, 13 phenotypes) -- with downstream agentic interpretation via GenomicsCopilot.</p>
                     <p class="project-desc">
-                        Designed and shipped the AWS infrastructure for the Singapore National Precision Medicine project. Nextflow on AWS Batch, with Lambda + Step Functions orchestrating sample intake, QC decisions, and output delivery. Processed 6,000+ samples with minimal human intervention.
+                        End-to-end population genomics pipeline: genotype QC and LD pruning, REGENIE whole-genome regression (Step 1 + Step 2), multi-ethnic stratified association, interactive Manhattan plots per phenotype per group, and automated HTML reports. Top hits feed into <strong>GenomicsCopilot</strong> via <code>gwas_bridge.py</code>: variant IDs extracted from <code>.regenie.filtered.gz</code> tophit files and passed to the 7-node LangGraph interpretation pipeline for ACMG classification and LLM-powered clinical synthesis. Population discovery to clinical interpretation in a single command.
                     </p>
                     <div class="metric-row">
-                        <div class="metric"><div class="val">40% ↓</div><div class="lbl">Compute cost</div></div>
-                        <div class="metric"><div class="val">50% ↓</div><div class="lbl">Storage footprint</div></div>
-                        <div class="metric"><div class="val">400 TB</div><div class="lbl">Genomic data managed</div></div>
+                        <div class="metric"><div class="val">4 groups</div><div class="lbl">TEMUS multi-ethnic cohort</div></div>
+                        <div class="metric"><div class="val">13 phenotypes</div><div class="lbl">Parallel GWAS runs</div></div>
+                        <div class="metric"><div class="val">100k variants</div><div class="lbl">REGENIE whole-genome regression</div></div>
                     </div>
                     <div class="tech">
-                        <span class="tag">Nextflow</span>
+                        <span class="tag">Nextflow DSL2</span>
+                        <span class="tag">REGENIE</span>
                         <span class="tag">AWS Batch</span>
-                        <span class="tag">Lambda</span>
-                        <span class="tag">Step Functions</span>
+                        <span class="tag">Python</span>
+                        <span class="tag">R / ggplot2</span>
                         <span class="tag">Docker</span>
-                        <span class="tag">IaC</span>
                     </div>
                     <div class="project-links">
-                        <a class="project-link" href="https://github.com/ankurgenomics/gwas_nf" target="_blank" rel="noopener">→ Related Nextflow (GWAS)</a>
+                        <a class="project-link" href="https://github.com/ankurgenomics/gwas_nf" target="_blank" rel="noopener">→ GitHub repo</a>
+                        <a class="project-link" href="https://github.com/ankurgenomics/agentic-genomics/blob/main/gwas_bridge.py" target="_blank" rel="noopener">→ gwas_bridge.py</a>
                     </div>
                 </article>
 
