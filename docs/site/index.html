@@ -188,7 +188,7 @@
             <div class="section-head">
                 <div class="section-kicker">// Selected work</div>
                 <h2 class="section-title">Agents, pipelines, and research projects</h2>
-                <p class="section-sub">Five projects that cover the range: open-source agentic AI, agent-callable genomics tools, production multi-agent systems, self-optimising ML pipelines, and applied research. Each links to code, a demo, or a writeup where possible.</p>
+                <p class="section-sub">Six projects that cover the range: open-source agentic AI for outbreak surveillance, agent-callable genomics tools, production multi-agent systems, self-optimising ML pipelines, and applied research. Each links to code, a demo, or a writeup where possible.</p>
             </div>
 
             <div class="projects-grid">
@@ -229,6 +229,36 @@
                              alt="GenomicsCopilot pipeline: VCF + HPO → ingest_variants → annotate_evidence → frequency_filter → phenotype_score → acmg_classify → synthesize_report → critic_review → ranked report"
                              loading="lazy"
                              style="width: 100%; max-width: 480px; border-radius: 12px; margin: 0 auto; display: block;">
+                    </div>
+                </article>
+
+
+                <article class="project reveal">
+                    <div class="badges">
+                        <span class="badge badge-featured">Open source · Agentic AI</span>
+                        <span class="badge badge-oss">LangGraph · Python · No API key</span>
+                    </div>
+                    <h3>outbreak-agent -- Infectious Disease Triage Pipeline</h3>
+                    <p class="project-hook">4-node LangGraph state machine that triages infectious disease cases -- built around the April 2026 MV Hondius / Andes virus event, the first confirmed human-to-human hantavirus transmission on a cruise ship.</p>
+                    <p class="project-desc">
+                        A self-correcting agentic pipeline: genomic_node identifies clade and mutations, linkage_node resolves contact clusters and transmission mode, risk_node scores 0-100 with tier (LOW / MEDIUM / HIGH / CRITICAL), and critic_node enforces four consistency rules -- looping back up to 3 times if flags are raised. Generates a 3-panel matplotlib risk dashboard (PNG) and a structured A4 PDF triage report automatically on every run. No API key. No cost. 33 tests, fully deterministic.
+                    </p>
+                    <div class="metric-row">
+                        <div class="metric"><div class="val">4 nodes</div><div class="lbl">genomic / linkage / risk / critic</div></div>
+                        <div class="metric"><div class="val">33 tests</div><div class="lbl">23 unit + 10 integration, free to run</div></div>
+                        <div class="metric"><div class="val">&lt;2 sec</div><div class="lbl">CRITICAL triage, MV Hondius case</div></div>
+                    </div>
+                    <div class="tech">
+                        <span class="tag">LangGraph 0.6</span>
+                        <span class="tag">LangChain</span>
+                        <span class="tag">matplotlib</span>
+                        <span class="tag">ReportLab</span>
+                        <span class="tag">pytest</span>
+                        <span class="tag">Apache 2.0</span>
+                    </div>
+                    <div class="project-links">
+                        <a class="project-link" href="https://github.com/ankurgenomics/outbreak-agent" target="_blank" rel="noopener">→ GitHub repo</a>
+                        <a class="project-link" href="https://ankurgenomics.github.io/2026/05/09/hantavirus-cruise-ship-agentic-ai.html" target="_blank" rel="noopener">→ Blog post</a>
                     </div>
                 </article>
 
@@ -287,7 +317,7 @@
                     <div class="badges">
                         <span class="badge badge-prod">Production · Cloud</span>
                     </div>
-                    <h3>Autonomous Genomic Pipelines (Mirxes)</h3>
+                    <h3>Autonomous Genomic Pipelines</h3>
                     <p class="project-hook">Self-optimising WGS/RNA-seq workflows on AWS with adaptive resource allocation and automated QC gating.</p>
                     <p class="project-desc">
                         Designed and shipped the AWS infrastructure for the Singapore National Precision Medicine project. Nextflow on AWS Batch, with Lambda + Step Functions orchestrating sample intake, QC decisions, and output delivery. Processed 6,000+ samples with minimal human intervention.
@@ -343,7 +373,7 @@
                 <p class="section-sub">
                     PhD bioinformatician with 8+ years spanning clinical diagnostics, genomic data analysis, and cloud infrastructure.
                     Proven track record in <strong style="color:var(--text);">regulatory validation</strong> (DVT, clinical concordance, LOD),
-                    <strong style="color:var(--text);">production-grade pipelines</strong>, and commercial product improvement at leading genomics companies (Illumina, Mirxes).
+                    <strong style="color:var(--text);">production-grade pipelines</strong>, and commercial product improvement at leading genomics companies.
                     Now focused on agentic AI systems that apply the same rigour — traceability, reproducibility, measurable outcomes —
                     to autonomous reasoning over real biomedical data.
                 </p>
@@ -363,7 +393,7 @@
                 <div class="tl-item reveal">
                     <div class="tl-date">Jul 2025 — Present</div>
                     <div class="tl-role">Senior Scientist, Bioinformatics</div>
-                    <div class="tl-org">Illumina · Singapore</div>
+                    <div class="tl-org">Genomics Diagnostics Company · Singapore</div>
                     <div class="tl-body">
                         <ul>
                             <li>Lead <strong>Design Verification Testing (DVT)</strong> and regulatory validation for commercial diagnostic products (TSO500, NIPT16, VeriSeq) — FDA compliance, clinical-deployment quality.</li>
@@ -378,7 +408,7 @@
                 <div class="tl-item reveal">
                     <div class="tl-date">Jan 2022 — Jul 2025</div>
                     <div class="tl-role">Senior Scientist — Bioinformatics &amp; Cloud</div>
-                    <div class="tl-org">Mirxes · Singapore</div>
+                    <div class="tl-org">Clinical Genomics Company · Singapore</div>
                     <div class="tl-body">
                         <ul>
                             <li>Built and validated <strong>production-grade cloud data-analysis pipelines</strong>: 40%↓ compute cost, 50%↓ storage cost, 30%↓ turnaround time.</li>
