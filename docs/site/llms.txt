@@ -1,14 +1,14 @@
 # Ankur Sharma, PhD
 
-> Senior ML & Agentic AI Engineer building reasoning-traceable AI systems for genomics and biomedicine. PhD, 8+ years production experience. Based in Singapore.
+> Agentic AI & ML Engineer building reasoning-traceable AI systems for genomics and biomedicine. PhD, 8+ years production experience. Based in Singapore.
 
 ## About
 
-Ankur Sharma is a Senior ML & Agentic AI Engineer with a PhD in Biological Sciences from Nanyang Technological University (NTU), Singapore. He has 8+ years of experience shipping production machine learning systems, multi-agent AI, and cloud infrastructure across clinical diagnostics and genomics.
+Ankur Sharma is an Agentic AI & ML Engineer with a PhD in Biological Sciences from Nanyang Technological University (NTU), Singapore. He has 8+ years of experience shipping production machine learning systems, multi-agent AI, and cloud infrastructure across clinical diagnostics and genomics.
 
 He specialises in building multi-agent AI systems — autonomous software where multiple AI agents collaborate to solve complex scientific and engineering problems. His work spans agentic AI for variant interpretation, production multi-agent systems for pipeline diagnostics, and self-optimising cloud genomics infrastructure.
 
-He is open to Senior/Staff ML Engineer, Agentic AI Engineer, Research Engineer, and Applied Scientist roles. Based in Singapore (PR), open to remote or relocation.
+He is open to relevant roles globally — across industry, research, and startups — where agentic AI, ML, or computational biology intersects with real-world impact. Based in Singapore (PR), open to remote, hybrid, or relocation anywhere in the world.
 
 ## Contact
 

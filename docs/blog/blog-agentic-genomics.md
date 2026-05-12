@@ -60,4 +60,4 @@ Portfolio with full project details: [ankurgenomics.github.io/agentic-genomics](
 
 ---
 
-*Ankur Sharma, PhD — Senior ML & Agentic AI Engineer. Building reasoning-traceable AI for genomics. Based in Singapore.*
+*Ankur Sharma, PhD — Agentic AI & ML Engineer. Building reasoning-traceable AI for genomics. Based in Singapore.*
