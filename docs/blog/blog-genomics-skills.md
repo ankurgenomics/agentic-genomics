@@ -105,4 +105,4 @@ If you're building tool-augmented agents in biomedicine, drug discovery, or any 
 
 ---
 
-*Ankur Sharma, PhD — Senior ML & Agentic AI Engineer. Portfolio: [ankurgenomics.github.io/agentic-genomics](https://ankurgenomics.github.io/agentic-genomics/)*
+*Ankur Sharma, PhD — Agentic AI & ML Engineer. Portfolio: [ankurgenomics.github.io/agentic-genomics](https://ankurgenomics.github.io/agentic-genomics/)*
