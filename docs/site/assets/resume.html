@@ -143,6 +143,19 @@ li { margin-bottom: 1.5pt; }
 
 <div class="project-entry">
   <div class="role-line">
+    <span class="proj-title">Reviewer2 — Autonomous ACMG Variant Second Reviewer</span>
+    <span class="proj-url"><a href="https://github.com/ankurgenomics/Reviewer2">github.com/ankurgenomics/Reviewer2</a></span>
+  </div>
+  <div class="proj-desc">
+    4-node LangGraph pipeline (normalise → fetch_evidence → score_acmg → detect_conflicts) for autonomous ACMG/AMP second review. Takes a variant and a proposed clinical classification, re-derives the call independently from evidence, and flags disagreements with the human call. Pydantic v2 validators enforce evidence grounding at the model level: no criterion fires without a source sentence. Exposed as a FastMCP server so any LLM agent speaking Model Context Protocol can call it as a tool. Provider-agnostic LLM layer: Ollama, Anthropic, OpenAI, Gemini. Evaluated against expert-panel ClinVar (ClinGen VCEP) classifications unseen during development: 86% action-band concordance on in-scope cases. 21 tests, CI/CD via GitHub Actions.
+  </div>
+  <div class="proj-desc" style="font-size: 8.5pt; color: #444; margin-top: 1pt;">
+    <strong>Stack:</strong> LangGraph, FastMCP (Model Context Protocol), Pydantic v2, Ollama / Anthropic / OpenAI / Gemini, uv, ruff, mypy, MIT
+  </div>
+</div>
+
+<div class="project-entry">
+  <div class="role-line">
     <span class="proj-title">outbreak-agent — Agentic Outbreak Triage System</span>
     <span class="proj-url"><a href="https://github.com/ankurgenomics/outbreak-agent">github.com/ankurgenomics/outbreak-agent</a></span>
   </div>
