@@ -137,12 +137,12 @@ nav a.cta:hover { background: var(--accent); color: var(--bg); border-color: var
 }
 h1.hero-title {
     font-family: var(--serif);
-    font-weight: 400;
-    font-size: clamp(2.4rem, 6vw, 4.2rem);
-    line-height: 1.05;
-    letter-spacing: -0.01em;
+    font-weight: 500;
+    font-size: clamp(2.8rem, 7vw, 5rem);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
     margin-bottom: 1.4rem;
-    max-width: 16ch;
+    max-width: 18ch;
 }
 h1.hero-title .grad {
     background: linear-gradient(120deg, var(--text) 0%, var(--accent) 55%, var(--accent-2) 100%);
