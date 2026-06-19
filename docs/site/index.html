@@ -235,6 +235,36 @@
 
                 <article class="project reveal">
                     <div class="badges">
+                        <span class="badge badge-featured">Open source · Explainable ML</span>
+                        <span class="badge badge-oss">XGBoost · SHAP · LangGraph · Python</span>
+                    </div>
+                    <h3>sentinel-amr — Explainable AMR Classifier</h3>
+                    <p class="project-hook">Explainable, agentic antimicrobial resistance classifier for bacterial pathogen surveillance. Predicts resistance, names the genes that drove the call, detects organisms outside the training distribution, and escalates uncertainty to a human.</p>
+                    <p class="project-desc">
+                        Trained on 298 real <em>K. pneumoniae</em> genomes from BV-BRC (PATRIC), labelled by laboratory AST. A 5-node bounded LangGraph agent runs vectorisation → XGBoost classification → alignment-free k-NN novelty check → SHAP TreeExplainer attribution → critic gate. The critic never loops — it is a single deterministic pass. Every run produces an auditable markdown report (for a risk officer) and a JSON record (for a LIMS). Top SHAP drivers independently rediscovered correct biology: CTX-M-15, acrAB efflux pump, DNA topoisomerase IV — the literal fluoroquinolone target. Novel-organism flag blocks the automated call when Jaccard distance exceeds the calibrated threshold; the model's probability is explicitly not trusted.
+                    </p>
+                    <div class="metric-row">
+                        <div class="metric"><div class="val">0.894</div><div class="lbl">ROC-AUC, group-aware holdout</div></div>
+                        <div class="metric"><div class="val">298 genomes</div><div class="lbl">real BV-BRC AST labels</div></div>
+                        <div class="metric"><div class="val">8 tests</div><div class="lbl">dataset, split, novelty, agent</div></div>
+                    </div>
+                    <div class="tech">
+                        <span class="tag">XGBoost</span>
+                        <span class="tag">SHAP TreeExplainer</span>
+                        <span class="tag">LangGraph</span>
+                        <span class="tag">BV-BRC / CARD / VFDB</span>
+                        <span class="tag">GroupShuffleSplit</span>
+                        <span class="tag">MIT</span>
+                    </div>
+                    <div class="project-links">
+                        <a class="project-link" href="https://github.com/ankurgenomics/sentinel-amr" target="_blank" rel="noopener">→ GitHub repo</a>
+                        <a class="project-link" href="https://github.com/ankurgenomics/sentinel-amr/blob/main/SCALING.md" target="_blank" rel="noopener">→ Production architecture</a>
+                    </div>
+                </article>
+
+
+                <article class="project reveal">
+                    <div class="badges">
                         <span class="badge badge-featured">Open source · Agentic AI</span>
                         <span class="badge badge-oss">LangGraph · Python · No API key</span>
                     </div>
@@ -619,6 +649,13 @@
             <h3 itemprop="name">Who is Ankur Sharma and what does he do?</h3>
             <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
                 <p itemprop="text">Ankur Sharma is an Agentic AI & ML Engineer with a PhD from NTU Singapore and 8+ years of experience. He builds production multi-agent AI systems and reasoning-traceable AI for genomics and biomedicine. He is based in Singapore and open to relevant roles globally across industry, research, and startups. Contact: ankurs103@gmail.com or linkedin.com/in/ankurit.</p>
+            </div>
+        </div>
+
+        <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+            <h3 itemprop="name">What is sentinel-amr?</h3>
+            <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                <p itemprop="text">sentinel-amr is an explainable, agentic antimicrobial resistance classifier for bacterial pathogen surveillance. It predicts resistance from curated gene content using XGBoost, attributes every call to specific resistance genes via SHAP TreeExplainer, detects novel or out-of-distribution organisms with an alignment-free k-NN gate, and routes each sample through a bounded 5-node LangGraph agent that produces an auditable report. Trained on 298 real K. pneumoniae genomes from BV-BRC with ROC-AUC 0.894 on a group-aware holdout. Available at github.com/ankurgenomics/sentinel-amr under the MIT license.</p>
             </div>
         </div>
 
