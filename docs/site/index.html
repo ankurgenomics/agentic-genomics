@@ -201,10 +201,41 @@
             <div class="section-head">
                 <div class="section-kicker">// Selected work</div>
                 <h2 class="section-title">Agents, pipelines, and research projects</h2>
-                <p class="section-sub">Six projects that cover the range: open-source agentic AI for outbreak surveillance, agent-callable genomics tools, production multi-agent systems, self-optimising ML pipelines, and applied research. Each links to code, a demo, or a writeup where possible.</p>
+                <p class="section-sub">Projects spanning genomic foundation-model fine-tuning, open-source agentic AI for variant interpretation and outbreak surveillance, agent-callable genomics tools, production multi-agent systems, self-optimising ML pipelines, and applied research. Each links to code, a demo, or a writeup where possible.</p>
             </div>
 
             <div class="projects-grid">
+                <article class="project featured reveal">
+                    <div>
+                        <div class="badges">
+                            <span class="badge badge-featured">Featured · Foundation model fine-tuning</span>
+                            <span class="badge badge-oss">PyTorch · Hugging Face · Nucleotide Transformer v2</span>
+                        </div>
+                        <h3>genome-ft — Fine-tuning a Genomic Foundation Model</h3>
+                        <p class="project-hook">Full weight-level fine-tuning of Nucleotide Transformer v2 (50M), a genomic foundation model, on two GenomicBenchmarks DNA classification tasks. The deliverable is the evaluation protocol, not the headline number.</p>
+                        <p class="project-desc">
+                            All 53.8M parameters of the InstaDeep backbone are updated (not LoRA, not a frozen head) together with a classification head, using AdamW at a low learning rate with warmup and cosine decay and reverse-complement augmentation. The evaluation is deliberately strict: a leakage-free train/validation/test split, the test set scored exactly once on the best validation checkpoint, three random seeds with reported variance, and the base model measured under the identical pipeline. Validation MCC peaked at epoch 1–2 and then declined, which is why a low learning rate and validation-based checkpoint selection matter more than longer training. The base model is licensed CC-BY-NC-SA-4.0, so the repository publishes reproducible code rather than redistributing weights.
+                        </p>
+                        <div class="metric-row">
+                            <div class="metric"><div class="val">0.735</div><div class="lbl">Enhancers accuracy (MCC 0.478 ± 0.003, 3 seeds)</div></div>
+                            <div class="metric"><div class="val">0.872</div><div class="lbl">Promoters accuracy (MCC 0.747)</div></div>
+                            <div class="metric"><div class="val">53.8M</div><div class="lbl">Parameters fully fine-tuned</div></div>
+                        </div>
+                        <div class="tech">
+                            <span class="tag">PyTorch (Apple MPS)</span>
+                            <span class="tag">Hugging Face Transformers</span>
+                            <span class="tag">Nucleotide Transformer v2</span>
+                            <span class="tag">GenomicBenchmarks</span>
+                            <span class="tag">AdamW · cosine decay</span>
+                            <span class="tag">scikit-learn</span>
+                        </div>
+                        <div class="project-links">
+                            <a class="project-link" href="https://github.com/ankurgenomics/genome-ft" target="_blank" rel="noopener">→ GitHub repo</a>
+                            <a class="project-link" href="https://huggingface.co/ankur0050/nucleotide-transformer-v2-50m-genomicbenchmarks-ft" target="_blank" rel="noopener">→ Hugging Face model card</a>
+                        </div>
+                    </div>
+                </article>
+
                 <article class="project featured reveal">
                     <div>
                         <div class="badges">
@@ -332,35 +363,6 @@
                     </div>
                     <div class="project-links">
                         <a class="project-link" href="https://github.com/ankurgenomics/genomics-skills" target="_blank" rel="noopener">→ GitHub repo</a>
-                    </div>
-                </article>
-
-                <article class="project reveal">
-                    <div class="badges">
-                        <span class="badge badge-featured">Open source · Foundation model fine-tuning</span>
-                        <span class="badge badge-oss">PyTorch · Hugging Face · Nucleotide Transformer v2</span>
-                    </div>
-                    <h3>genome-ft — Fine-tuning a Genomic Foundation Model</h3>
-                    <p class="project-hook">Full weight-level fine-tuning of Nucleotide Transformer v2 (50M), a genomic foundation model, on two GenomicBenchmarks DNA classification tasks. The deliverable is the evaluation protocol, not the headline number.</p>
-                    <p class="project-desc">
-                        All 53.8M parameters of the InstaDeep backbone are updated (not LoRA, not a frozen head) together with a classification head, using AdamW at a low learning rate with warmup and cosine decay and reverse-complement augmentation. The evaluation is deliberately strict: a leakage-free train/validation/test split, the test set scored exactly once on the best validation checkpoint, three random seeds with reported variance, and the base model measured under the identical pipeline. Validation MCC peaked at epoch 1–2 and then declined, which is why a low learning rate and validation-based checkpoint selection matter more than longer training. The base model is licensed CC-BY-NC-SA-4.0, so the repository publishes reproducible code rather than redistributing weights.
-                    </p>
-                    <div class="metric-row">
-                        <div class="metric"><div class="val">0.735</div><div class="lbl">Enhancers accuracy (MCC 0.478 ± 0.003, 3 seeds)</div></div>
-                        <div class="metric"><div class="val">0.872</div><div class="lbl">Promoters accuracy (MCC 0.747)</div></div>
-                        <div class="metric"><div class="val">53.8M</div><div class="lbl">Parameters fully fine-tuned</div></div>
-                    </div>
-                    <div class="tech">
-                        <span class="tag">PyTorch (Apple MPS)</span>
-                        <span class="tag">Hugging Face Transformers</span>
-                        <span class="tag">Nucleotide Transformer v2</span>
-                        <span class="tag">GenomicBenchmarks</span>
-                        <span class="tag">AdamW · cosine decay</span>
-                        <span class="tag">scikit-learn</span>
-                    </div>
-                    <div class="project-links">
-                        <a class="project-link" href="https://github.com/ankurgenomics/genome-ft" target="_blank" rel="noopener">→ GitHub repo</a>
-                        <a class="project-link" href="https://huggingface.co/ankur0050/nucleotide-transformer-v2-50m-genomicbenchmarks-ft" target="_blank" rel="noopener">→ Hugging Face model card</a>
                     </div>
                 </article>
 
