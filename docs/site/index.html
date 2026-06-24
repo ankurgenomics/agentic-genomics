@@ -110,6 +110,19 @@
       },
       {
         "@context": "https://schema.org",
+        "@type": "SoftwareSourceCode",
+        "name": "genome-ft (Genomic Foundation Model Fine-tuning)",
+        "description": "Full weight-level fine-tuning of Nucleotide Transformer v2 (50M), a genomic foundation model, on two GenomicBenchmarks DNA classification tasks. All 53.8M parameters updated with a leakage-free train/validation/test split, multi-seed evaluation with reported variance, and the base model measured under the identical pipeline. Enhancers accuracy 0.735 (MCC 0.478 ± 0.003), promoters accuracy 0.872 (MCC 0.747).",
+        "url": "https://github.com/ankurgenomics/genome-ft",
+        "codeRepository": "https://github.com/ankurgenomics/genome-ft",
+        "programmingLanguage": "Python",
+        "license": "https://opensource.org/licenses/MIT",
+        "author": {"@id": "https://ankurgenomics.github.io/agentic-genomics/#person"},
+        "runtimePlatform": "Python 3.10+",
+        "keywords": ["genomic foundation model", "Nucleotide Transformer", "fine-tuning", "DNA language model", "GenomicBenchmarks", "PyTorch", "Hugging Face", "deep learning", "bioinformatics"]
+      },
+      {
+        "@context": "https://schema.org",
         "@type": "WebPage",
         "name": "Ankur Sharma, PhD — Agentic AI · ML · Computational Biology Portfolio",
         "url": "https://ankurgenomics.github.io/agentic-genomics/",
@@ -319,6 +332,35 @@
                     </div>
                     <div class="project-links">
                         <a class="project-link" href="https://github.com/ankurgenomics/genomics-skills" target="_blank" rel="noopener">→ GitHub repo</a>
+                    </div>
+                </article>
+
+                <article class="project reveal">
+                    <div class="badges">
+                        <span class="badge badge-featured">Open source · Foundation model fine-tuning</span>
+                        <span class="badge badge-oss">PyTorch · Hugging Face · Nucleotide Transformer v2</span>
+                    </div>
+                    <h3>genome-ft — Fine-tuning a Genomic Foundation Model</h3>
+                    <p class="project-hook">Full weight-level fine-tuning of Nucleotide Transformer v2 (50M), a genomic foundation model, on two GenomicBenchmarks DNA classification tasks. The deliverable is the evaluation protocol, not the headline number.</p>
+                    <p class="project-desc">
+                        All 53.8M parameters of the InstaDeep backbone are updated (not LoRA, not a frozen head) together with a classification head, using AdamW at a low learning rate with warmup and cosine decay and reverse-complement augmentation. The evaluation is deliberately strict: a leakage-free train/validation/test split, the test set scored exactly once on the best validation checkpoint, three random seeds with reported variance, and the base model measured under the identical pipeline. Validation MCC peaked at epoch 1–2 and then declined, which is why a low learning rate and validation-based checkpoint selection matter more than longer training. The base model is licensed CC-BY-NC-SA-4.0, so the repository publishes reproducible code rather than redistributing weights.
+                    </p>
+                    <div class="metric-row">
+                        <div class="metric"><div class="val">0.735</div><div class="lbl">Enhancers accuracy (MCC 0.478 ± 0.003, 3 seeds)</div></div>
+                        <div class="metric"><div class="val">0.872</div><div class="lbl">Promoters accuracy (MCC 0.747)</div></div>
+                        <div class="metric"><div class="val">53.8M</div><div class="lbl">Parameters fully fine-tuned</div></div>
+                    </div>
+                    <div class="tech">
+                        <span class="tag">PyTorch (Apple MPS)</span>
+                        <span class="tag">Hugging Face Transformers</span>
+                        <span class="tag">Nucleotide Transformer v2</span>
+                        <span class="tag">GenomicBenchmarks</span>
+                        <span class="tag">AdamW · cosine decay</span>
+                        <span class="tag">scikit-learn</span>
+                    </div>
+                    <div class="project-links">
+                        <a class="project-link" href="https://github.com/ankurgenomics/genome-ft" target="_blank" rel="noopener">→ GitHub repo</a>
+                        <a class="project-link" href="https://huggingface.co/ankur0050/nucleotide-transformer-v2-50m-genomicbenchmarks-ft" target="_blank" rel="noopener">→ Hugging Face model card</a>
                     </div>
                 </article>
 
@@ -679,6 +721,13 @@
             <h3 itemprop="name">What is genomics-skills?</h3>
             <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
                 <p itemprop="text">genomics-skills is a library of 8 agent-callable Python genomics tools: TCGA pan-cancer expression analysis (9,479 real patient samples), Kaplan-Meier survival analysis, GO/KEGG enrichment, PubMed search, protein variant mapping, 3D structure viewing, and volcano plots. Each skill has a SKILL.md contract and CLI entrypoint. LLM routing via Claude Haiku. Available at github.com/ankurgenomics/genomics-skills.</p>
+            </div>
+        </div>
+
+        <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+            <h3 itemprop="name">What is genome-ft?</h3>
+            <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                <p itemprop="text">genome-ft is a full weight-level fine-tuning of Nucleotide Transformer v2 (50M), a genomic foundation model from InstaDeep, on two GenomicBenchmarks DNA classification tasks. All 53.8M parameters are updated rather than using LoRA or a frozen head. The project emphasises a trustworthy evaluation protocol: a leakage-free train/validation/test split, the test set scored exactly once, three random seeds with reported variance, and the base model measured under the identical pipeline. It reaches 0.735 accuracy on enhancers (MCC 0.478 ± 0.003 over 3 seeds) and 0.872 on promoters (MCC 0.747). Code is at github.com/ankurgenomics/genome-ft and the model card is at huggingface.co/ankur0050/nucleotide-transformer-v2-50m-genomicbenchmarks-ft.</p>
             </div>
         </div>
 

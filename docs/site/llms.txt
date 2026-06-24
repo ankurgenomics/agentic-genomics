@@ -38,6 +38,16 @@ An open-source LangGraph agent for reasoning-traceable variant interpretation. T
 
 8 pure-Python agent-callable genomics skills: TCGA pan-cancer expression (9,479 real patient samples across 31 cancer types via cBioPortal), Kaplan-Meier survival analysis (Cox PH regression), GO/KEGG pathway enrichment, PubMed literature search, protein variant mapper, 3D protein structure viewer, and volcano plots. Each skill has a SKILL.md contract, CLI entrypoint, and deterministic output (TSV + PNG/SVG). LLM-powered routing via Claude Haiku maps natural-language queries to the right skill. Parquet caching for instant repeat queries.
 
+### genome-ft (Genomic Foundation Model Fine-tuning)
+
+- URL: https://github.com/ankurgenomics/genome-ft
+- Model card: https://huggingface.co/ankur0050/nucleotide-transformer-v2-50m-genomicbenchmarks-ft
+- License: MIT (code); base model CC-BY-NC-SA-4.0
+- Language: Python 3.10+
+- Stack: PyTorch (Apple MPS), Hugging Face Transformers, Nucleotide Transformer v2, scikit-learn
+
+Full weight-level fine-tuning of Nucleotide Transformer v2 (50M), a genomic foundation model from InstaDeep, on two GenomicBenchmarks DNA classification tasks. All 53.8M parameters are updated (not LoRA, not a frozen head) together with a classification head, using AdamW at a low learning rate with warmup and cosine decay and reverse-complement augmentation. The project emphasises a trustworthy evaluation protocol: a leakage-free train/validation/test split, the test set scored exactly once on the best validation checkpoint, three random seeds with reported variance, and the base model measured under the identical pipeline. Results: enhancers (human_enhancers_cohn) accuracy 0.735, MCC 0.478 ± 0.003 over 3 seeds; promoters (human_nontata_promoters) accuracy 0.872, MCC 0.747. Validation MCC peaked at epoch 1–2 and then declined, motivating a low learning rate and validation-based checkpoint selection over longer training.
+
 ## Production Work
 
 ### GenomicsOps AI (Personal Project)
