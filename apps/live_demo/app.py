@@ -23,12 +23,16 @@ from __future__ import annotations
 
 import json
 import tempfile
+from dataclasses import asdict
 from pathlib import Path
 
 import streamlit as st
 
 from agentic_genomics.agents.variant_interpreter.showcase import (
     ACTION_LABEL,
+    INK_MUTED,
+    INK_PRIMARY,
+    INK_SECONDARY,
     STATUS_COLOR,
     render_chart,
     run_deterministic_pipeline,
@@ -45,11 +49,35 @@ st.set_page_config(
     layout="wide",
 )
 
-st.title("🧬 GenomicsCopilot")
-st.caption(
-    "Live variant interpretation — VCF + phenotype in, ranked evidence-grounded "
-    "calls out. Research demonstration only, not for clinical use."
+
+def _badge(label: str, call: str) -> str:
+    """A small pill badge, same visual language as the static HTML showcase report."""
+    color = STATUS_COLOR.get(call, INK_MUTED)
+    return (
+        f"<div style='display:inline-block;padding:5px 12px;border-radius:999px;"
+        f"background:{color}22;color:{color};border:1px solid {color}55;"
+        f"font-weight:700;font-size:0.75rem;white-space:nowrap;'>{label}</div>"
+    )
+
+
+st.markdown(
+    f"""
+    <div style="padding: 0.5rem 0 0.25rem;">
+      <div style="font-size: 2.3rem; font-weight: 800; letter-spacing: -0.02em; color: {INK_PRIMARY};">
+        🧬 GenomicsCopilot
+      </div>
+      <div style="font-size: 1.05rem; color: {INK_SECONDARY}; margin-top: 0.35rem; max-width: 68ch;">
+        Live variant interpretation — VCF + phenotype in, ranked evidence-grounded calls out,
+        with a full audit trail of what was queried and why.
+      </div>
+      <div style="margin-top: 0.65rem; font-size: 0.78rem; color: {INK_MUTED};">
+        Open source · MIT · LangGraph · live public bio-databases · research demonstration only, not for clinical use
+      </div>
+    </div>
+    """,
+    unsafe_allow_html=True,
 )
+st.divider()
 
 live_tab, example_tab, about_tab = st.tabs(
     ["▶ Live demo", "📋 Recorded example (Reviewer2 second opinion)", "ℹ️ About the full agent"]
@@ -107,13 +135,12 @@ with live_tab:
         st.image(str(chart_path), use_container_width=True)
 
         for card in cards:
-            color = STATUS_COLOR.get(card.call, "#898781")
             with st.container(border=True):
                 head_l, head_r = st.columns([3, 1])
-                head_l.markdown(f"### {card.gene}  \n`{card.coord}`")
+                head_l.markdown(f"#### {card.gene}  \n`{card.coord}`")
+                badge_label = f"{ACTION_LABEL.get(card.call, '')} · {card.call}"
                 head_r.markdown(
-                    f"<div style='text-align:right;color:{color};font-weight:700;'>"
-                    f"{ACTION_LABEL.get(card.call, '')} · {card.call}</div>",
+                    f"<div style='text-align:right;'>{_badge(badge_label, card.call)}</div>",
                     unsafe_allow_html=True,
                 )
                 st.caption(card.rationale)
@@ -132,6 +159,8 @@ with live_tab:
                         "Second opinion (Reviewer2): unavailable in this public "
                         "deployment — see the recorded example tab for a real run."
                     )
+                with st.expander("🔍 View raw evidence (the audit trail behind this call)"):
+                    st.json(asdict(card))
     else:
         st.info("Configure the run above and click **Run GenomicsCopilot**.")
 
@@ -150,13 +179,12 @@ with example_tab:
     )
     example_cards = json.loads(EXAMPLE_SNAPSHOT.read_text(encoding="utf-8"))
     for card in example_cards:
-        color = STATUS_COLOR.get(card["call"], "#898781")
         with st.container(border=True):
             head_l, head_r = st.columns([3, 1])
-            head_l.markdown(f"### {card['gene']}  \n`{card['coord']}`")
+            head_l.markdown(f"#### {card['gene']}  \n`{card['coord']}`")
+            badge_label = f"{ACTION_LABEL.get(card['call'], '')} · {card['call']}"
             head_r.markdown(
-                f"<div style='text-align:right;color:{color};font-weight:700;'>"
-                f"{ACTION_LABEL.get(card['call'], '')} · {card['call']}</div>",
+                f"<div style='text-align:right;'>{_badge(badge_label, card['call'])}</div>",
                 unsafe_allow_html=True,
             )
             if card["second_opinion_available"]:
@@ -171,6 +199,8 @@ with example_tab:
                         f"✓ **Reviewer2 (independent engine, via MCP):** "
                         f"concordant — “{card['second_opinion_call']}”"
                     )
+            with st.expander("🔍 View raw evidence (the audit trail behind this call)"):
+                st.json(card)
 
 # --------------------------------------------------------------------------- #
 # About
@@ -200,3 +230,11 @@ streamlit run apps/streamlit_demo.py
 Source: [github.com/ankurgenomics/agentic-genomics](https://github.com/ankurgenomics/agentic-genomics)
         """
     )
+
+st.divider()
+st.markdown(
+    f"<div style='font-size:0.78rem;color:{INK_MUTED};'>"
+    f"🔗 <a href='https://github.com/ankurgenomics/agentic-genomics' style='color:{INK_MUTED};'>"
+    f"github.com/ankurgenomics/agentic-genomics</a> · MIT licensed</div>",
+    unsafe_allow_html=True,
+)

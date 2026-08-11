@@ -1,0 +1,11 @@
+# Shared theme for both Streamlit apps in this repo (apps/live_demo/app.py,
+# apps/streamlit_demo.py). Colors match the chart palette in
+# variant_interpreter/showcase.py so the app chrome and the rendered chart
+# read as one system, not two different tools bolted together.
+[theme]
+base = "light"
+primaryColor = "#8A2BE2"
+backgroundColor = "#fcfcfb"
+secondaryBackgroundColor = "#f4f3f0"
+textColor = "#0b0b0b"
+font = "sans serif"
