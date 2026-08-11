@@ -7,7 +7,7 @@
 [![Built with LangGraph](https://img.shields.io/badge/built%20with-LangGraph-8A2BE2)](https://langchain-ai.github.io/langgraph/)
 [![Status: Alpha](https://img.shields.io/badge/status-alpha-orange)](#roadmap)
 
-**GenomicsCopilot** takes a VCF file plus a patient's phenotype (HPO terms) and returns a ranked, evidence-grounded list of candidate variants — each with a full provenance record of which database was queried, what it returned, and which ACMG rule fired. A second, independently-built AI system (Reviewer2) re-reviews every call live over MCP, so disagreements between two separately engineered classifiers are surfaced, not hidden. **Live demo:** _(deploying — see [`apps/live_demo/`](./apps/live_demo/))_.
+**GenomicsCopilot** takes a VCF file plus a patient's phenotype (HPO terms) and returns a ranked, evidence-grounded list of candidate variants — each with a full provenance record of which database was queried, what it returned, and which ACMG rule fired. A second, independently-built AI system (Reviewer2) re-reviews every call live over MCP, so disagreements between two separately engineered classifiers are surfaced, not hidden. **[Live demo →](https://agentic-genomic-ankursharma.streamlit.app/)**
 
 ![GenomicsCopilot — where each variant lands, from a real run against live ClinVar/gnomAD/CADD data](./docs/variant_ranking.png)
 
