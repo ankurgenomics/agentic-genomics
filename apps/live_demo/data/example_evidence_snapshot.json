@@ -1,0 +1,130 @@
+[
+  {
+    "gene": "SCN1A",
+    "coord": "chr2:166044010 G>A",
+    "call": "Pathogenic",
+    "criteria": [
+      "PVS1",
+      "PM2_Supporting",
+      "PP5"
+    ],
+    "rationale": "null consequence in a LoF-intolerant gene (candidate PVS1; SVI flowchart not fully applied); absent/ultra-rare in gnomAD; ClinVar reports (likely) pathogenic. [acmg-lite: transparent subset classifier \u2014 not ACMG/AMP 2015 certified]",
+    "clinvar_significance": "Pathogenic",
+    "clinvar_submitters": 7,
+    "gnomad_af": 0.0,
+    "cadd_phred": null,
+    "phenotype_match": "weak",
+    "linked_diseases": [
+      "Dravet syndrome",
+      "Lennox-Gastaut syndrome",
+      "Generalized epilepsy with febrile seizures plus, type 2"
+    ],
+    "second_opinion_available": true,
+    "second_opinion_call": "Uncertain significance",
+    "second_opinion_flagged": true,
+    "second_opinion_note": "Proposed call 'Pathogenic' disagrees with the independent call 'Uncertain significance' across clinical action bands \u2014 escalate for human review.",
+    "second_opinion_extra_note": null
+  },
+  {
+    "gene": "STK11",
+    "coord": "chr19:1220650 G>T",
+    "call": "Pathogenic",
+    "criteria": [
+      "PVS1",
+      "PM2_Supporting",
+      "PP5"
+    ],
+    "rationale": "null consequence in a LoF-intolerant gene (candidate PVS1; SVI flowchart not fully applied); absent/ultra-rare in gnomAD; ClinVar reports (likely) pathogenic. [acmg-lite: transparent subset classifier \u2014 not ACMG/AMP 2015 certified]",
+    "clinvar_significance": "Likely pathogenic",
+    "clinvar_submitters": 1,
+    "gnomad_af": 0.0,
+    "cadd_phred": null,
+    "phenotype_match": "weak",
+    "linked_diseases": [
+      "Testicular tumor, somatic",
+      "Peutz-Jeghers syndrome",
+      "Melanoma, cutaneous malignant"
+    ],
+    "second_opinion_available": true,
+    "second_opinion_call": "Likely pathogenic",
+    "second_opinion_flagged": false,
+    "second_opinion_note": "Proposed call 'Pathogenic' differs from the independent call 'Likely pathogenic', but both fall in the same clinical action band, so management is unchanged. Noted for completeness.",
+    "second_opinion_extra_note": null
+  },
+  {
+    "gene": "TP53",
+    "coord": "chr17:7674944 C>T",
+    "call": "Uncertain Significance",
+    "criteria": [
+      "PM2_Supporting",
+      "PP3"
+    ],
+    "rationale": "absent/ultra-rare in gnomAD; multiple in-silico predictors agree it is deleterious. [acmg-lite: transparent subset classifier \u2014 not ACMG/AMP 2015 certified]",
+    "clinvar_significance": "Uncertain significance",
+    "clinvar_submitters": 8,
+    "gnomad_af": 6.57073e-06,
+    "cadd_phred": null,
+    "phenotype_match": "strong",
+    "linked_diseases": [
+      "Hereditary breast and/or ovarian cancer syndrome",
+      "Li-Fraumeni syndrome",
+      "Essential thrombocythemia"
+    ],
+    "second_opinion_available": true,
+    "second_opinion_call": "Uncertain significance",
+    "second_opinion_flagged": false,
+    "second_opinion_note": null,
+    "second_opinion_extra_note": null
+  },
+  {
+    "gene": "PALB2",
+    "coord": "chr16:23622972 C>T",
+    "call": "Likely Benign",
+    "criteria": [
+      "BS1",
+      "PP3",
+      "BP6"
+    ],
+    "rationale": "relatively common in gnomAD (popmax AF \u2265 1%); multiple in-silico predictors agree it is deleterious; ClinVar reports (likely) benign. [acmg-lite: transparent subset classifier \u2014 not ACMG/AMP 2015 certified]",
+    "clinvar_significance": "Benign, Benign/Likely benign, Likely benign, no classifications from unflagged records",
+    "clinvar_submitters": 10,
+    "gnomad_af": 0.0171206,
+    "cadd_phred": null,
+    "phenotype_match": "moderate",
+    "linked_diseases": [
+      "Pancreatic cancer, susceptibility to, 3",
+      "Breast-ovarian cancer, familial, susceptibility to, 5",
+      "Fanconi anemia"
+    ],
+    "second_opinion_available": true,
+    "second_opinion_call": "Likely benign",
+    "second_opinion_flagged": false,
+    "second_opinion_note": null,
+    "second_opinion_extra_note": "ClinVar reports conflicting interpretations among submitters; the single proposed call may hide genuine disagreement."
+  },
+  {
+    "gene": "BRCA2",
+    "coord": "chr13:32332592 A>C",
+    "call": "Benign",
+    "criteria": [
+      "BA1",
+      "BP6"
+    ],
+    "rationale": "common in gnomAD (popmax AF \u2265 5%); ClinVar reports (likely) benign. [acmg-lite: transparent subset classifier \u2014 not ACMG/AMP 2015 certified]",
+    "clinvar_significance": "Benign, Uncertain significance",
+    "clinvar_submitters": 11,
+    "gnomad_af": 0.237922,
+    "cadd_phred": null,
+    "phenotype_match": "strong",
+    "linked_diseases": [
+      "Pancreatic cancer, susceptibility to, 2",
+      "Glioma susceptibility 3",
+      "Breast-Ovarian cancer, familial, susceptibility to, 2"
+    ],
+    "second_opinion_available": true,
+    "second_opinion_call": "Benign",
+    "second_opinion_flagged": false,
+    "second_opinion_note": null,
+    "second_opinion_extra_note": "ClinVar reports conflicting interpretations among submitters; the single proposed call may hide genuine disagreement."
+  }
+]

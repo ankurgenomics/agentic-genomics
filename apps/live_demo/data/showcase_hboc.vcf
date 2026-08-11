@@ -1,0 +1,16 @@
+##fileformat=VCFv4.2
+##source=agentic-genomics-showcase
+##reference=GRCh38
+##INFO=<ID=NOTE,Number=1,Type=String,Description="Curator note: real ClinVar classification + consequence at time of retrieval">
+##INFO=<ID=CSQ,Number=.,Type=String,Description="Consequence annotations from VEP-lite. Format: Consequence|SYMBOL|HGVSc|HGVSp">
+##contig=<ID=chr2>
+##contig=<ID=chr13>
+##contig=<ID=chr16>
+##contig=<ID=chr17>
+##contig=<ID=chr19>
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
+chr2	166044010	.	G	A	500	PASS	NOTE=SCN1A_real_ClinVar_Pathogenic_stopgain_p.Arg568Ter;CSQ=stop_gained|SCN1A||p.Arg568Ter
+chr19	1220650	.	G	T	500	PASS	NOTE=STK11_real_ClinVar_LikelyPathogenic_stopgain_p.Glu223Ter;CSQ=stop_gained|STK11||p.Glu223Ter
+chr17	7674944	.	C	T	500	PASS	NOTE=TP53_real_ClinVar_UncertainSignificance_missense;CSQ=missense_variant|TP53||p.Arg196Gln
+chr16	23622972	.	C	T	500	PASS	NOTE=PALB2_real_ClinVar_LikelyBenign_AF0.017;CSQ=missense_variant|PALB2||p.Gly998Glu
+chr13	32332592	.	A	C	500	PASS	NOTE=BRCA2_real_ClinVar_Benign_AF0.238;CSQ=missense_variant|BRCA2||p.Asn372His
