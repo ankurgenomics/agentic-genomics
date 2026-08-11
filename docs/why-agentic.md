@@ -35,7 +35,7 @@ This is simpler, cheaper, and far more auditable than a tool-calling free-for-al
 
 ### 2. Every decision is traceable
 
-`agentic-genomics` attaches a `reasoning_trace` to every run: an append-only list of steps, each with a node name, a one-line summary, and machine-readable evidence. This matters because:
+`agentic-genomics` attaches an **audit trail** to every run — a `reasoning_trace`: an append-only, machine-readable provenance record of which source was queried, what it returned, and which rule fired, one entry per step. This matters because:
 - **Audit**: reviewers can see *why* a variant was dropped or kept.
 - **Debugging**: when a report looks wrong, you can pinpoint which node went off.
 - **Reproducibility**: traces + cached tool outputs = exactly-reproducible runs.

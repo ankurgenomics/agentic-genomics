@@ -200,9 +200,3 @@ streamlit run apps/streamlit_demo.py
 Source: [github.com/ankurgenomics/agentic-genomics](https://github.com/ankurgenomics/agentic-genomics)
         """
     )
-
-st.divider()
-st.caption(
-    "Research demonstration only — not a medical device, not for clinical use. "
-    "agentic-genomics · MIT licensed."
-)

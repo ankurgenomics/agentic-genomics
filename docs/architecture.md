@@ -56,7 +56,7 @@ All nodes read/write a single Pydantic model, `VariantInterpreterState`, that ca
 
 - **Inputs** — `vcf_path`, `hpo_terms`, `max_variants`
 - **Derived** — `variants: list[AnnotatedVariant]` accumulating evidence through the graph
-- **Audit** — `reasoning_trace: list[dict]` appended by every node
+- **Audit trail** — `reasoning_trace: list[dict]`, a provenance record appended by every node (what was queried, what came back, which rule fired)
 - **Output** — `report_markdown`
 
 Because state is typed, each node's contract is self-documenting and trivially testable in isolation.

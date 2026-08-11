@@ -93,7 +93,7 @@ if run_button:
         )
 
     with right:
-        st.subheader("Reasoning trace")
+        st.subheader("Audit trail")
         for step in state.reasoning_trace:
             with st.expander(f"🧠 {step['node']}"):
                 st.write(step["summary"])

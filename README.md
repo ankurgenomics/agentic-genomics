@@ -1,15 +1,15 @@
 # agentic-genomics
 
-> **Agentic AI for genomics — with reasoning traces you can audit.** An LLM-plus-tools pattern that makes variant interpretation explainable, not opaque.
+> **Agentic AI for genomics — with an audit trail you can read.** An LLM-plus-tools pattern that makes variant interpretation explainable, not opaque.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![Built with LangGraph](https://img.shields.io/badge/built%20with-LangGraph-8A2BE2)](https://langchain-ai.github.io/langgraph/)
 [![Status: Alpha](https://img.shields.io/badge/status-alpha-orange)](#roadmap)
 
-Genomics workflows are long, judgment-heavy, and scattered across a dozen databases. LLMs with the right **tools + structured reasoning** can act as a research copilot — drafting interpretations, explaining their evidence, and letting the human focus on the decisions that actually matter.
+**GenomicsCopilot** takes a VCF file plus a patient's phenotype (HPO terms) and returns a ranked, evidence-grounded list of candidate variants — each with a full provenance record of which database was queried, what it returned, and which ACMG rule fired. A second, independently-built AI system (Reviewer2) re-reviews every call live over MCP, so disagreements between two separately engineered classifiers are surfaced, not hidden. **Live demo:** _(deploying — see [`apps/live_demo/`](./apps/live_demo/))_.
 
-This repo is a growing collection of such agents. The flagship agent is **GenomicsCopilot**, a variant-interpretation assistant.
+![GenomicsCopilot — where each variant lands, from a real run against live ClinVar/gnomAD/CADD data](./docs/variant_ranking.png)
 
 > ⚠️ **Research demonstration only. Not for clinical use. Not a medical device.** The ACMG implementation is a transparent *lite* subset — not certified, not complete, and not a substitute for a clinical variant scientist. See [`LIMITATIONS.md`](./LIMITATIONS.md) and [`DISCLAIMER.md`](./DISCLAIMER.md) for the full accounting of what this system does and does not do.
 
@@ -77,7 +77,7 @@ disorders (HPO:0001250). SpliceAI additionally predicts a donor-site disruption
 at this position, strengthening the functional case...
 ```
 
-This is the **reasoning trace** — the core differentiator over purely rule-based tools like [InterVar](https://wintervar.wglab.org/), and the core trust-building move over opaque one-shot LLM prompts.
+This is the **audit trail** — a provenance record of which source was queried, what it returned, and which rule fired, attached to every run. It's the core differentiator over purely rule-based tools like [InterVar](https://wintervar.wglab.org/), and the core trust-building move over opaque one-shot LLM prompts.
 
 > **How this compares to prior art.** Tools like [InterVar](https://wintervar.wglab.org/), [CardioClassifier](https://www.cardioclassifier.org/), [PathoMAN](https://pathoman.mskcc.org/), and commercial platforms (Franklin, Fabric GEM) implement the full 28 ACMG/AMP criteria with expert-reviewed refinements — far beyond what this repo does. LLM-based efforts like [GeneGPT](https://github.com/ncbi-nlp/GeneGPT) (NCBI, 2024) and [VarChat](https://github.com/crs4/VarChat) show the tool-calling pattern is viable for genomics. `agentic-genomics` sits in a different niche: a small, readable, self-critiquing reference implementation for the *agentic* pattern — not a production interpreter. See [`LIMITATIONS.md`](./LIMITATIONS.md) for what's missing.
 
@@ -152,7 +152,7 @@ See [`docs/roadmap.md`](./docs/roadmap.md) for detailed designs.
 ## Design principles
 
 1. **Agents reason, pipelines compute.** LLMs are used where judgment is required, never where a deterministic function would do.
-2. **Every decision is traceable.** Every agent run emits a structured reasoning trace you can audit and version.
+2. **Every decision is traceable.** Every agent run emits an audit trail — a structured, versionable provenance record of what was queried and why.
 3. **Public data, public APIs.** Nothing in this repo requires proprietary data access.
 4. **Minimal, not sprawling.** Each agent has ≤6 tools, each tool does one thing well.
 5. **Research-grade, not clinical-grade.** Always.
