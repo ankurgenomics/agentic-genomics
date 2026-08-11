@@ -46,6 +46,12 @@ def parse_vcf(vcf_path: str | Path, max_variants: int = 50) -> list[Variant]:
     for rec in vcf:
         if rec.alts is None:
             continue
+        # Skip records that failed a caller's quality filters (e.g. LowQual,
+        # RefCall). A FILTER of "." (no filters run/recorded) is not the
+        # same as a failure and is let through.
+        filters = set(rec.filter.keys())
+        if filters and "PASS" not in filters:
+            continue
         for alt in rec.alts:
             gene = consequence = hgvs_p = hgvs_c = None
             if csq_header and "CSQ" in rec.info:

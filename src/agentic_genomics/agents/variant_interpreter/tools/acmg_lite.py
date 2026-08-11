@@ -276,9 +276,12 @@ def _final_call(criteria: list[str]) -> str:
         s >= 1 and m >= 2 and sup >= 2,           # 1 Strong + 2 Moderate + 2 Supporting
         s >= 1 and m >= 1 and sup >= 4,           # 1 Strong + 1 Moderate + 4 Supporting
     ]
-    # Only return Pathogenic if there are no conflicting benign criteria;
-    # otherwise fall through to LP/VUS consideration.
-    if any(pathogenic_rules) and not (b_s or b_sup):
+    # Only return Pathogenic if there's no conflicting Strong benign
+    # criterion (BS1). A single Supporting benign criterion (e.g. BP4 from
+    # two so-so in-silico calls) shouldn't override a PVS1/Strong stack —
+    # Richards 2015 doesn't license that, and it was previously silencing
+    # e.g. a true null variant in an LoF-intolerant gene down to VUS.
+    if any(pathogenic_rules) and not b_s:
         return "Pathogenic"
 
     # Likely Pathogenic rules (per Richards 2015, Table 5, "Likely Pathogenic" list).
@@ -295,7 +298,7 @@ def _final_call(criteria: list[str]) -> str:
         # that the full SVI flowchart isn't implemented.
         vs >= 1,
     ]
-    if any(likely_pathogenic_rules) and not (b_s or b_sup):
+    if any(likely_pathogenic_rules) and not b_s:
         return "Likely Pathogenic"
 
     if likely_benign_eligible:

@@ -187,6 +187,16 @@ def patched_pipeline(monkeypatch):
         nodes_mod.hpo, "score_phenotype_match", _fake_score_phenotype_match
     )
 
+    # second_opinion_review talks to a sibling repo's MCP server over a real
+    # subprocess — stub it out so this test stays offline/fast/deterministic
+    # regardless of whether Reviewer2 happens to be checked out locally.
+    async def _fake_get_second_opinions(_variants):
+        return {}
+
+    monkeypatch.setattr(
+        nodes_mod.reviewer2_client, "get_second_opinions", _fake_get_second_opinions
+    )
+
     fake_llm = _FakeLLM()
     monkeypatch.setattr(nodes_mod, "get_llm", lambda: fake_llm)
     return fake_llm
@@ -249,6 +259,7 @@ def test_full_graph_on_demo_vcf(patched_pipeline):
         "frequency_filter",
         "phenotype_score",
         "acmg_classify",
+        "second_opinion_review",
         "synthesize_report",
         "critic_review",
     ]

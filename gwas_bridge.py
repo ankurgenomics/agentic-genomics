@@ -79,11 +79,11 @@ def parse_regenie_gz(filepath: Path, phenotype: str, group: str) -> list[dict]:
             parts = line.split()
             if len(parts) < len(REGENIE_COLS):
                 continue
-            record = dict(zip(REGENIE_COLS, parts))
+            record = dict(zip(REGENIE_COLS, parts, strict=False))
             log10p = float(record.get("LOG10P", 0))
             if log10p < GW_THRESHOLD:
                 continue
-            chrom = record["CHROM"].lstrip("chr")
+            chrom = record["CHROM"].removeprefix("chr")
             pos = record["GENPOS"]
             ref = record["ALLELE0"]
             alt = record["ALLELE1"]
@@ -204,7 +204,7 @@ def main() -> None:
 
     print(f"\nOutput written: {out_file}")
     print("Next step:")
-    print(f"  cd agentic-genomics")
+    print("  cd agentic-genomics")
     print(f"  python run_copilot.py --from-gwas {out_file.resolve()}")
 
 

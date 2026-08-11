@@ -9,7 +9,25 @@ from __future__ import annotations
 
 from collections import Counter
 
+import pytest
+
 from agentic_genomics.agents.variant_interpreter.tools import hpo
+from agentic_genomics.core import cache
+
+
+@pytest.fixture(autouse=True)
+def _tmp_cache(monkeypatch, tmp_path):
+    """Isolate every test in this file from the real on-disk cache.
+
+    Without this, tests that exercise ``gene_hpo_annotations`` for real
+    (rather than monkeypatching it away) would read/write
+    ``.agentic_genomics_cache`` in the repo working directory — polluting
+    it, and worse, letting a stale cache entry from an earlier manual run
+    silently mask a test that's supposed to be exercising a cache miss.
+    """
+    monkeypatch.setattr(cache, "_CACHE_DIR", tmp_path)
+    yield
+
 
 # --- Pure helpers -------------------------------------------------------
 
@@ -63,6 +81,55 @@ def test_empty_inputs_return_none_match(monkeypatch):
     assert m2.score == 0.0
 
     assert calls == []  # neither path should have called the API
+
+
+@pytest.mark.network
+def test_gene_hpo_annotations_live_lookup_returns_real_data():
+    """End-to-end sanity check against the real JAX ontology API.
+
+    Regression test: ``HPO_GENE_URL`` used to be called directly with a
+    bare gene symbol (e.g. ``.../annotation/BRCA1``), which the live API
+    rejects with 400 ("TermId construction error: 'BRCA1' does not have a
+    prefix!") — meaning every real run silently produced zero phenotype
+    signal for every gene, with the failure masked by the offline unit
+    tests (which all stub ``gene_hpo_annotations`` directly) and by the
+    network-failure fallback degrading it to "no data" instead of raising.
+    This hits the live API to prove the symbol→NCBIGene-ID resolution step
+    actually returns usable phenotype/disease data.
+    """
+    data = hpo.gene_hpo_annotations("BRCA1")
+    assert data is not None
+    terms = hpo._extract_gene_terms(data)
+    assert "HP:0002119" in terms or len(terms) > 0
+
+
+def test_gene_hpo_annotations_degrades_on_persistent_network_failure(monkeypatch):
+    """A persistent JAX API failure must degrade that gene, not crash the run.
+
+    Regression test: ``_fetch_gene_hpo`` is wrapped in ``@retry``; once
+    retries are exhausted for a non-404 failure (timeout, 5xx), tenacity
+    raises. That used to propagate straight out of ``gene_hpo_annotations``
+    and up through ``phenotype_score``, crashing the entire LangGraph run
+    over a single gene's phenotype lookup — a transient outage should only
+    cost that gene's phenotype signal.
+    """
+
+    def _always_fails(*_args, **_kwargs):
+        raise TimeoutError("JAX ontology API unreachable")
+
+    # Gene-ID resolution succeeds; the annotation fetch is what fails.
+    monkeypatch.setattr(hpo, "_resolve_gene_id", lambda symbol: "NCBIGene:6323")
+    monkeypatch.setattr(hpo, "_fetch_gene_hpo", _always_fails)
+    assert hpo.gene_hpo_annotations("SCN1A") is None
+
+
+def test_gene_hpo_annotations_returns_none_when_symbol_does_not_resolve(monkeypatch):
+    """An unresolvable gene symbol should degrade to None, not call the
+    annotation endpoint with a bare symbol (which 400s — see
+    ``_fetch_gene_id``'s docstring).
+    """
+    monkeypatch.setattr(hpo, "_resolve_gene_id", lambda symbol: None)
+    assert hpo.gene_hpo_annotations("NOTAREALGENE") is None
 
 
 def test_gene_not_found_returns_none(monkeypatch):

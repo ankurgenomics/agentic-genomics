@@ -48,10 +48,20 @@ def put(namespace: str, key: str, value: Any) -> None:
 
 
 def cached_call(namespace: str, key: str, fn, ttl: int = _DEFAULT_TTL_SECONDS) -> Any:
-    """Memoise ``fn()`` at the disk level, keyed by ``(namespace, key)``."""
-    hit = get(namespace, key, ttl=ttl)
-    if hit is not None:
-        return hit
+    """Memoise ``fn()`` at the disk level, keyed by ``(namespace, key)``.
+
+    Note: we can't use ``get() is not None`` to detect a cache hit — a
+    legitimately cached ``None`` (e.g. a 404 from an upstream API) is
+    indistinguishable from a miss that way, which would defeat caching for
+    every variant/gene the API doesn't know about. Check file freshness
+    directly instead.
+    """
+    path = _key_to_path(namespace, key)
+    if path.exists() and time.time() - path.stat().st_mtime <= ttl:
+        try:
+            return json.loads(path.read_text())
+        except (OSError, json.JSONDecodeError):
+            pass  # fall through and refetch
     value = fn()
     put(namespace, key, value)
     return value

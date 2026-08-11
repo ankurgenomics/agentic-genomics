@@ -90,6 +90,13 @@ def test_cli_interpret_happy_path(tmp_path, monkeypatch):
         "score_phenotype_match",
         lambda gene, terms, **_kw: PhenotypeMatch(match_strength="none"),
     )
+
+    async def _fake_get_second_opinions(_variants):
+        return {}
+
+    monkeypatch.setattr(
+        nodes_mod.reviewer2_client, "get_second_opinions", _fake_get_second_opinions
+    )
     monkeypatch.setattr(nodes_mod, "get_llm", lambda: _FakeLLM())
 
     report_path = tmp_path / "reports" / "out.md"
@@ -118,6 +125,7 @@ def test_cli_interpret_happy_path(tmp_path, monkeypatch):
         "frequency_filter",
         "phenotype_score",
         "acmg_classify",
+        "second_opinion_review",
         "synthesize_report",
         "critic_review",
     ]

@@ -36,7 +36,11 @@ class Variant(BaseModel):
     @property
     def key(self) -> str:
         """Stable key suitable for caching and MyVariant lookups."""
-        return f"chr{self.chrom.lstrip('chr')}:g.{self.pos}{self.ref}>{self.alt}"
+        # NB: str.lstrip() strips a set of characters, not a prefix — e.g.
+        # "chr1_KI270706v1".lstrip("chr") would (harmlessly here, but by
+        # accident) stop at "1", while a chrom like "crM" would be
+        # over-stripped to "M". Use removeprefix for an exact, safe match.
+        return f"chr{self.chrom.removeprefix('chr')}:g.{self.pos}{self.ref}>{self.alt}"
 
 
 class ClinicalEvidence(BaseModel):
@@ -111,6 +115,33 @@ class CriticReview(BaseModel):
     flags: list[CriticFlag] = Field(default_factory=list)
 
 
+class SecondOpinionConflict(BaseModel):
+    """One disagreement flag raised by the Reviewer2 second-opinion engine."""
+
+    type: str = ""
+    severity: Literal["info", "minor", "major", "critical"] = "info"
+    message: str = ""
+
+
+class SecondOpinion(BaseModel):
+    """Independent ACMG re-review from Reviewer2, fetched over MCP.
+
+    Reviewer2 is a separate, independently-implemented classifier (its own
+    evidence, its own gene list, its own combining-rule code) — this is a
+    genuine second opinion, not a re-run of the same logic. ``available``
+    is False whenever the Reviewer2 MCP server couldn't be reached or
+    returned an error; the rest of the pipeline must keep working either way.
+    """
+
+    available: bool = False
+    independent_classification: str | None = None
+    disagreement_score: float | None = None
+    materially_disagrees: bool = False
+    conflicts: list[SecondOpinionConflict] = Field(default_factory=list)
+    summary: str = ""
+    error: str | None = None
+
+
 class AnnotatedVariant(BaseModel):
     """All evidence for a single variant, gathered from tools."""
 
@@ -120,6 +151,7 @@ class AnnotatedVariant(BaseModel):
     clinical: ClinicalEvidence = Field(default_factory=ClinicalEvidence)
     phenotype: PhenotypeMatch = Field(default_factory=PhenotypeMatch)
     acmg: ACMGAssessment | None = None
+    second_opinion: SecondOpinion | None = None
     llm_rationale: str = ""
     rank: int | None = None
 

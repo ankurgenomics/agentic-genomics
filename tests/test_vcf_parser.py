@@ -40,6 +40,30 @@ def test_parse_respects_max_variants(tmp_path):
     assert len(parse_vcf(vcf, max_variants=3)) == 3
 
 
+def test_parse_skips_non_pass_records(tmp_path):
+    """Records that failed a caller's quality filters must be dropped.
+
+    Regression test: the parser used to ignore the FILTER column entirely,
+    so e.g. LowQual/RefCall calls from a real variant caller would flow
+    all the way through frequency filtering, ACMG classification, and the
+    LLM report as if they were high-confidence calls.
+    """
+    vcf = _write_vcf(
+        tmp_path,
+        """\
+        ##fileformat=VCFv4.2
+        ##contig=<ID=chr1>
+        #CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
+        chr1	100	.	A	T	50	PASS	.
+        chr1	200	.	G	C	50	LowQual	.
+        chr1	300	.	C	A	50	.	.
+        """,
+    )
+    variants = parse_vcf(vcf)
+    # PASS is kept; LowQual is dropped; "." (no filter recorded) is kept.
+    assert {v.pos for v in variants} == {100, 300}
+
+
 def test_parse_multi_allelic(tmp_path):
     vcf = _write_vcf(
         tmp_path,

@@ -11,6 +11,7 @@ from agentic_genomics.agents.variant_interpreter.nodes import (
     frequency_filter,
     ingest_variants,
     phenotype_score,
+    second_opinion_review,
     synthesize_report,
 )
 from agentic_genomics.agents.variant_interpreter.state import VariantInterpreterState
@@ -31,6 +32,7 @@ def build_variant_interpreter():
     graph.add_node("frequency_filter", frequency_filter)
     graph.add_node("phenotype_score", phenotype_score)
     graph.add_node("acmg_classify", acmg_classify)
+    graph.add_node("second_opinion_review", second_opinion_review)
     graph.add_node("synthesize_report", synthesize_report)
     graph.add_node("critic_review", critic_review)
 
@@ -39,7 +41,8 @@ def build_variant_interpreter():
     graph.add_edge("annotate_evidence", "frequency_filter")
     graph.add_edge("frequency_filter", "phenotype_score")
     graph.add_edge("phenotype_score", "acmg_classify")
-    graph.add_edge("acmg_classify", "synthesize_report")
+    graph.add_edge("acmg_classify", "second_opinion_review")
+    graph.add_edge("second_opinion_review", "synthesize_report")
     graph.add_edge("synthesize_report", "critic_review")
     graph.add_edge("critic_review", END)
 

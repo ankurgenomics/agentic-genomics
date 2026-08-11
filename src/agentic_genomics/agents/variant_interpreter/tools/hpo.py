@@ -40,7 +40,8 @@ from tenacity import retry, stop_after_attempt, wait_exponential
 from agentic_genomics.agents.variant_interpreter.state import PhenotypeMatch
 from agentic_genomics.core import cache
 
-HPO_GENE_URL = "https://ontology.jax.org/api/network/annotation/{gene}"
+HPO_GENE_URL = "https://ontology.jax.org/api/network/annotation/{gene_id}"
+HPO_GENE_SEARCH_URL = "https://ontology.jax.org/api/network/search/gene"
 HPO_TERM_URL = "https://ontology.jax.org/api/hp/terms/{term_id}"
 TIMEOUT = 15.0
 
@@ -55,9 +56,41 @@ _WEAK_SCORE = 0.5
 # --- Gene-level annotation ----------------------------------------------
 
 @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=1, max=8))
-def _fetch_gene_hpo(gene_symbol: str) -> dict | None:
-    """Return raw HPO annotation data for a gene symbol, or None if not found."""
-    url = HPO_GENE_URL.format(gene=gene_symbol)
+def _fetch_gene_id(gene_symbol: str) -> str | None:
+    """Resolve an approved gene symbol (e.g. ``"BRCA1"``) to a JAX network
+    gene ID (e.g. ``"NCBIGene:672"``).
+
+    The annotation endpoint (:data:`HPO_GENE_URL`) does *not* accept bare
+    gene symbols — it requires a prefixed term ID and 400s on anything
+    else ("TermId construction error: 'BRCA1' does not have a prefix!").
+    This search endpoint is the documented way to get that ID.
+    """
+    with httpx.Client(timeout=TIMEOUT) as client:
+        resp = client.get(HPO_GENE_SEARCH_URL, params={"q": gene_symbol})
+        if resp.status_code == 404:
+            return None
+        resp.raise_for_status()
+        results = resp.json().get("results") or []
+    for r in results:
+        if isinstance(r, dict) and str(r.get("name", "")).upper() == gene_symbol.upper():
+            gene_id = r.get("id")
+            return str(gene_id) if gene_id else None
+    return None
+
+
+def _resolve_gene_id(gene_symbol: str) -> str | None:
+    """Cached wrapper around :func:`_fetch_gene_id`."""
+    return cache.cached_call(
+        namespace="hpo_gene_id",
+        key=gene_symbol.upper(),
+        fn=lambda: _fetch_gene_id(gene_symbol.upper()),
+    )
+
+
+@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=1, max=8))
+def _fetch_gene_hpo(gene_id: str) -> dict | None:
+    """Return raw HPO annotation data for a resolved JAX gene ID, or None."""
+    url = HPO_GENE_URL.format(gene_id=gene_id)
     with httpx.Client(timeout=TIMEOUT) as client:
         resp = client.get(url)
         if resp.status_code == 404:
@@ -67,14 +100,28 @@ def _fetch_gene_hpo(gene_symbol: str) -> dict | None:
 
 
 def gene_hpo_annotations(gene_symbol: str) -> dict | None:
-    """Cached wrapper around :func:`_fetch_gene_hpo`."""
+    """Cached wrapper around gene-symbol resolution + :func:`_fetch_gene_hpo`.
+
+    A 404 (unknown gene) already degrades to ``None`` inside
+    ``_fetch_gene_hpo``. Other failures (timeouts, 5xx) exhaust the
+    ``@retry`` decorator and raise — without this guard that exception
+    propagates out of ``phenotype_score`` and crashes the whole graph run
+    over a single gene lookup. A transient JAX API outage should degrade
+    that gene's phenotype match to "none", not fail the pipeline.
+    """
     if not gene_symbol:
         return None
-    return cache.cached_call(
-        namespace="hpo_gene",
-        key=gene_symbol.upper(),
-        fn=lambda: _fetch_gene_hpo(gene_symbol.upper()),
-    )
+    try:
+        gene_id = _resolve_gene_id(gene_symbol)
+        if not gene_id:
+            return None
+        return cache.cached_call(
+            namespace="hpo_gene",
+            key=gene_id,
+            fn=lambda: _fetch_gene_hpo(gene_id),
+        )
+    except Exception:
+        return None
 
 
 def _extract_gene_terms(data: dict | None) -> set[str]:

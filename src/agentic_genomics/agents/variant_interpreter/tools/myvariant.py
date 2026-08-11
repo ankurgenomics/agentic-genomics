@@ -64,11 +64,45 @@ def extract_population(record: dict[str, Any] | None) -> PopulationFrequency:
         return PopulationFrequency()
     gnomad = record.get("gnomad_genome") or record.get("gnomad_exome") or {}
     af = gnomad.get("af", {}) if isinstance(gnomad, dict) else {}
+    # MyVariant.info has returned "af" both as a nested dict
+    # ({"af": {"af": 0.001, "af_popmax": ...}}) and, for some records, as a
+    # flat float ({"af": 0.001}). Treating the flat form as "no data"
+    # silently produced gnomad_af=None for a variant that IS common —
+    # which then incorrectly triggers PM2_Supporting ("absent from
+    # gnomAD") for it downstream in the ACMG classifier.
+    if isinstance(af, dict):
+        gnomad_af = af.get("af")
+        gnomad_af_popmax = af.get("af_popmax")
+    elif isinstance(af, (int, float)):
+        gnomad_af = float(af)
+        gnomad_af_popmax = None
+    else:
+        gnomad_af = gnomad_af_popmax = None
     return PopulationFrequency(
-        gnomad_af=af.get("af") if isinstance(af, dict) else None,
-        gnomad_af_popmax=af.get("af_popmax") if isinstance(af, dict) else None,
+        gnomad_af=gnomad_af,
+        gnomad_af_popmax=gnomad_af_popmax,
         gnomad_hom=gnomad.get("ac", {}).get("ac_hom") if isinstance(gnomad, dict) else None,
     )
+
+
+def _consensus_pred(value: Any, deleterious: set[str]) -> str | None:
+    """Collapse a dbNSFP prediction field to a single call.
+
+    dbNSFP predictions (SIFT, PolyPhen2, ...) are computed per-transcript,
+    and for variants overlapping multiple transcripts MyVariant.info
+    returns a *list* of per-transcript calls (e.g. ``["T", "T", "D"]``)
+    instead of a single string. Passing that list straight into
+    ``FunctionalScores`` (a ``str | None`` field) crashes pydantic
+    validation for any real-world multi-transcript variant. We
+    conservatively surface a deleterious call if any transcript shows
+    one, else fall back to the first available call.
+    """
+    if isinstance(value, list):
+        for v in value:
+            if v in deleterious:
+                return v
+        return value[0] if value else None
+    return value if isinstance(value, str) else None
 
 
 def extract_functional(record: dict[str, Any] | None) -> FunctionalScores:
@@ -82,17 +116,28 @@ def extract_functional(record: dict[str, Any] | None) -> FunctionalScores:
 
     spliceai_max = None
     if isinstance(spliceai, dict):
-        ds_values = [
+        raw_ds_values = [
             spliceai.get("ds_ag"),
             spliceai.get("ds_al"),
             spliceai.get("ds_dg"),
             spliceai.get("ds_dl"),
         ]
-        ds_values = [v for v in ds_values if isinstance(v, (int, float))]
+        ds_values: list[float] = [v for v in raw_ds_values if isinstance(v, (int, float))]
         spliceai_max = max(ds_values) if ds_values else None
 
     revel = dbnsfp.get("revel", {})
     revel_score = revel.get("score") if isinstance(revel, dict) else revel
+
+    sift_pred = _consensus_pred(
+        dbnsfp.get("sift", {}).get("pred") if isinstance(dbnsfp.get("sift"), dict) else None,
+        deleterious={"D"},
+    )
+    polyphen_field = dbnsfp.get("polyphen2", {})
+    polyphen_hdiv = polyphen_field.get("hdiv", {}) if isinstance(polyphen_field, dict) else {}
+    polyphen_pred = _consensus_pred(
+        polyphen_hdiv.get("pred") if isinstance(polyphen_hdiv, dict) else None,
+        deleterious={"D", "P"},
+    )
 
     # gnomAD constraint metrics. MyVariant aggregates these under
     # "gnomad_genome" / "gnomad_exome" > "constraint" or a top-level
@@ -121,10 +166,8 @@ def extract_functional(record: dict[str, Any] | None) -> FunctionalScores:
         cadd_phred=cadd.get("phred") if isinstance(cadd, dict) else None,
         revel=revel_score if isinstance(revel_score, (int, float)) else None,
         spliceai_max=spliceai_max,
-        sift=dbnsfp.get("sift", {}).get("pred") if isinstance(dbnsfp.get("sift"), dict) else None,
-        polyphen=dbnsfp.get("polyphen2", {}).get("hdiv", {}).get("pred")
-        if isinstance(dbnsfp.get("polyphen2"), dict)
-        else None,
+        sift=sift_pred,
+        polyphen=polyphen_pred,
         gnomad_pli=pli,
         gnomad_loeuf=loeuf,
     )

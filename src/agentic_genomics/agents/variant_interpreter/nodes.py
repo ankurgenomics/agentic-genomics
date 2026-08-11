@@ -7,6 +7,7 @@ the LLM.
 
 from __future__ import annotations
 
+import asyncio
 import json
 
 from langchain_core.messages import HumanMessage, SystemMessage
@@ -21,12 +22,15 @@ from agentic_genomics.agents.variant_interpreter.state import (
     AnnotatedVariant,
     CriticFlag,
     CriticReview,
+    SecondOpinion,
     VariantInterpreterState,
 )
 from agentic_genomics.agents.variant_interpreter.tools import (
     acmg_lite,
+    gnomad_constraint,
     hpo,
     myvariant,
+    reviewer2_client,
 )
 from agentic_genomics.agents.variant_interpreter.tools.vcf_parser import parse_vcf
 from agentic_genomics.core.llm import get_llm
@@ -53,10 +57,25 @@ def annotate_evidence(state: VariantInterpreterState) -> dict:
     hits_clinvar = 0
     for av in state.variants:
         record = myvariant.fetch_variant_record(av.variant)
+        functional = myvariant.extract_functional(record)
+        if functional.gnomad_pli is None and functional.gnomad_loeuf is None:
+            # MyVariant.info's own gnomad_constraint fields are unpopulated for
+            # every record as of this writing, so PVS1's LoF-intolerance gate
+            # (acmg_lite._is_lof_intolerant_gene) would otherwise never have
+            # data to work with. Fall back to gnomAD's own constraint API,
+            # keyed by gene rather than variant so it's cheap and cached.
+            constraint = gnomad_constraint.gene_constraint(av.variant.gene)
+            if constraint:
+                functional = functional.model_copy(
+                    update={
+                        "gnomad_pli": constraint.get("pli"),
+                        "gnomad_loeuf": constraint.get("loeuf"),
+                    }
+                )
         av = av.model_copy(
             update={
                 "population": myvariant.extract_population(record),
-                "functional": myvariant.extract_functional(record),
+                "functional": functional,
                 "clinical": myvariant.extract_clinvar(record),
             }
         )
@@ -160,6 +179,58 @@ def acmg_classify(state: VariantInterpreterState) -> dict:
     }
 
 
+def second_opinion_review(state: VariantInterpreterState) -> dict:
+    """Get an independent ACMG re-review from Reviewer2 over MCP, per variant.
+
+    Reviewer2 is a separate agent (sibling repo) with its own gene list,
+    its own combining-rule implementation, and its own evidence handling —
+    this is a genuine second opinion, not the same code re-run. See
+    ``tools/reviewer2_client.py`` for how the MCP session works and how it
+    degrades when Reviewer2 isn't available.
+    """
+    try:
+        opinions = asyncio.run(reviewer2_client.get_second_opinions(state.variants))
+    except Exception as exc:  # noqa: BLE001 - never let this sink the main pipeline
+        opinions = {}
+        step = trace(
+            "second_opinion_review",
+            f"Reviewer2 second opinion unavailable ({exc}); continuing without it.",
+        )
+        return {
+            "variants": [
+                av.model_copy(update={"second_opinion": SecondOpinion(available=False, error=str(exc))})
+                for av in state.variants
+            ],
+            "reasoning_trace": state.reasoning_trace + [step.to_dict()],
+        }
+
+    updated = []
+    concordant = flagged = missing = 0
+    for av in state.variants:
+        opinion = opinions.get(av.variant.key)
+        if opinion is None:
+            opinion = SecondOpinion(available=False, error="no response from Reviewer2 MCP server")
+            missing += 1
+        elif opinion.materially_disagrees:
+            flagged += 1
+        else:
+            concordant += 1
+        updated.append(av.model_copy(update={"second_opinion": opinion}))
+
+    step = trace(
+        "second_opinion_review",
+        f"Reviewer2 second opinion (via MCP): {concordant} concordant, "
+        f"{flagged} flagged for review, {missing} unavailable",
+        concordant=concordant,
+        flagged=flagged,
+        missing=missing,
+    )
+    return {
+        "variants": updated,
+        "reasoning_trace": state.reasoning_trace + [step.to_dict()],
+    }
+
+
 def _variants_to_json(variants: list[AnnotatedVariant]) -> str:
     """Serialise variants into a compact JSON blob for the LLM prompt."""
     compact = []
@@ -188,6 +259,13 @@ def _variants_to_json(variants: list[AnnotatedVariant]) -> str:
                 "linked_diseases": av.phenotype.linked_diseases,
                 "acmg_call": av.acmg.call if av.acmg else None,
                 "acmg_criteria": av.acmg.criteria_triggered if av.acmg else [],
+                "second_opinion_available": bool(av.second_opinion and av.second_opinion.available),
+                "second_opinion_call": (
+                    av.second_opinion.independent_classification if av.second_opinion else None
+                ),
+                "second_opinion_flagged_for_review": bool(
+                    av.second_opinion and av.second_opinion.materially_disagrees
+                ),
             }
         )
     return json.dumps(compact, indent=2)

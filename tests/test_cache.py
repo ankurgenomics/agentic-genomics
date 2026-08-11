@@ -40,6 +40,27 @@ def test_cached_call_is_memoised():
     assert calls["n"] == 1
 
 
+def test_cached_call_memoises_none_result():
+    """A legitimately cached ``None`` (e.g. a 404) must not look like a miss.
+
+    Regression test: ``cached_call`` used to check ``get(...) is not None``
+    to decide whether to call ``fn``. ``json.loads("null")`` is also
+    ``None``, so any ``fn`` that legitimately returns ``None`` was refetched
+    on every call, defeating caching for e.g. every unknown variant/gene.
+    """
+    calls = {"n": 0}
+
+    def fn():
+        calls["n"] += 1
+        return None
+
+    first = cache.cached_call("ns", "k", fn)
+    second = cache.cached_call("ns", "k", fn)
+    assert first is None
+    assert second is None
+    assert calls["n"] == 1
+
+
 def test_ttl_expiry():
     cache.put("ns", "k", {"v": 1})
     path = cache._key_to_path("ns", "k")

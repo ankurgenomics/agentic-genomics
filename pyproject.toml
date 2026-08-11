@@ -59,6 +59,9 @@ demo = [
 openai = [
     "langchain-openai>=0.2.0",
 ]
+mcp = [
+    "mcp>=1.2.0",
+]
 dev = [
     "pytest>=8.3",
     "pytest-cov>=5.0",
@@ -120,6 +123,15 @@ exclude_lines = [
 ]
 
 [tool.mypy]
-python_version = "3.11"
+# 3.11 previously broke mypy outright: numpy's stubs (pulled in via pandas)
+# use a PEP 695 `type` statement mypy only parses when the target is
+# 3.12+, so with "3.11" mypy aborted before checking a single file of our
+# own code ("Type statement is only supported in Python 3.12 and greater").
+python_version = "3.12"
 strict = false
 ignore_missing_imports = true
+# Without this, mypy doesn't understand pydantic v2's dynamically
+# generated __init__ (field name vs. alias, e.g. ChatAnthropic's
+# `model`/`model_name`) and raises false "unexpected keyword argument"
+# errors on every pydantic-model construction site.
+plugins = ["pydantic.mypy"]

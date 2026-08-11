@@ -185,6 +185,28 @@ def test_two_supporting_benign_is_likely_benign():
     assert "BP6" in a.criteria_triggered
 
 
+def test_pvs1_survives_a_single_supporting_benign_conflict():
+    """A single BP4 (Supporting benign) must not silence a PVS1 call.
+
+    Regression test: the combining-rule gate used to check
+    ``not (b_s or b_sup)``, so any Supporting-strength benign criterion —
+    even just one BP4 from two so-so in-silico calls — blocked the
+    Pathogenic/Likely-Pathogenic branches entirely. A true null variant in
+    an LoF-intolerant gene was downgraded to VUS/Likely-Benign whenever a
+    stray BP4 fired alongside it. Only a Strong benign criterion (BS1)
+    should gate the Pathogenic/LP branches.
+    """
+    a = acmg_lite.classify(
+        _mk(
+            consequence="stop_gained", pli=0.99,  # PVS1
+            cadd=5, revel=0.1, spliceai=0.01,  # BP4 (2 benign in-silico signals)
+        )
+    )
+    assert "PVS1" in a.criteria_triggered
+    assert "BP4" in a.criteria_triggered
+    assert a.call == "Likely Pathogenic"
+
+
 def test_rationale_surfaces_caveat():
     """Every rationale string must surface the acmg-lite caveat."""
     a = acmg_lite.classify(_mk(gnomad_af_popmax=0.06))
