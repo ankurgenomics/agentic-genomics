@@ -56,7 +56,15 @@ def annotate_evidence(state: VariantInterpreterState) -> dict:
     updated: list[AnnotatedVariant] = []
     hits_clinvar = 0
     for av in state.variants:
-        record = myvariant.fetch_variant_record(av.variant)
+        try:
+            record = myvariant.fetch_variant_record(av.variant)
+        except Exception:
+            # A transient MyVariant.info outage should degrade this one
+            # variant to "no evidence found", not crash the whole run --
+            # every other external call in this module already does this;
+            # this one didn't, and a live public demo can't afford a bare
+            # 500/timeout from a shared free API taking down the batch.
+            record = None
         functional = myvariant.extract_functional(record)
         if functional.gnomad_pli is None and functional.gnomad_loeuf is None:
             # MyVariant.info's own gnomad_constraint fields are unpopulated for

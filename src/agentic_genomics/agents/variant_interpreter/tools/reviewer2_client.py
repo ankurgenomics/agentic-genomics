@@ -132,33 +132,42 @@ async def _review_one(session, av: AnnotatedVariant) -> SecondOpinion:  # type: 
             block.text for block in result.content if getattr(block, "type", None) == "text"
         )
         dossier = json.loads(text)
-    except Exception as exc:  # noqa: BLE001 - one bad variant shouldn't sink the batch
-        return SecondOpinion(available=False, error=str(exc))
+        if not isinstance(dossier, dict):
+            raise ValueError(f"expected a JSON object from review_variant_tool, got {type(dossier).__name__}")
 
-    conflicts = [
-        SecondOpinionConflict(
-            type=c.get("type", ""),
-            severity=c.get("severity", "info"),
-            message=c.get("message", ""),
+        conflicts = [
+            SecondOpinionConflict(
+                type=c.get("type", ""),
+                severity=c.get("severity", "info"),
+                message=c.get("message", ""),
+            )
+            for c in dossier.get("conflicts", [])
+        ]
+        # "Materially disagrees" must mean the two engines actually landed in
+        # different clinical action bands — not just that Reviewer2 raised *any*
+        # major-severity flag. Reviewer2 also raises MAJOR flags for e.g. ClinVar
+        # itself having conflicting submitters, which is real, useful signal but
+        # is not the same claim as "the two independent engines disagree" — an
+        # earlier version of this code conflated the two, which mislabelled
+        # PALB2/BRCA2 (where both engines actually agree) as "flagged".
+        materially_disagrees = any(
+            c.type == "classification_disagreement" and c.severity in {"major", "critical"}
+            for c in conflicts
         )
-        for c in dossier.get("conflicts", [])
-    ]
-    # "Materially disagrees" must mean the two engines actually landed in
-    # different clinical action bands — not just that Reviewer2 raised *any*
-    # major-severity flag. Reviewer2 also raises MAJOR flags for e.g. ClinVar
-    # itself having conflicting submitters, which is real, useful signal but
-    # is not the same claim as "the two independent engines disagree" — an
-    # earlier version of this code conflated the two, which mislabelled
-    # PALB2/BRCA2 (where both engines actually agree) as "flagged".
-    materially_disagrees = any(
-        c.type == "classification_disagreement" and c.severity in {"major", "critical"}
-        for c in conflicts
-    )
-    return SecondOpinion(
-        available=True,
-        independent_classification=dossier.get("independent_classification"),
-        disagreement_score=dossier.get("disagreement_score"),
-        materially_disagrees=materially_disagrees,
-        conflicts=conflicts,
-        summary=dossier.get("summary", ""),
-    )
+        return SecondOpinion(
+            available=True,
+            independent_classification=dossier.get("independent_classification"),
+            disagreement_score=dossier.get("disagreement_score"),
+            materially_disagrees=materially_disagrees,
+            conflicts=conflicts,
+            summary=dossier.get("summary", ""),
+        )
+    except Exception as exc:  # noqa: BLE001 - one bad variant shouldn't sink the batch
+        # Everything that can fail for THIS variant -- the tool call, the JSON
+        # parse, or a malformed (non-dict) dossier -- is caught right here, so
+        # it degrades to "unavailable" for this one variant only. Letting a
+        # malformed-dossier AttributeError escape uncaught (as it used to)
+        # meant it propagated past this function into get_second_opinions'
+        # batch-level try/except, which silently zeroed out the second
+        # opinion for every variant in the run, not just the bad one.
+        return SecondOpinion(available=False, error=str(exc))

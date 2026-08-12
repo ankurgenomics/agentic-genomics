@@ -55,6 +55,14 @@ coverage.xml
 *.swo
 .DS_Store
 
+# Claude Code local settings (machine-specific permissions, not project config)
+.claude/
+
+# Office lock files
+~$*.pptx
+~$*.docx
+~$*.xlsx
+
 # Cache directories used by the agent
 .cache/
 .agentic_genomics_cache/

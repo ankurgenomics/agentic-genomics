@@ -22,6 +22,7 @@ Run locally with the full agent (LLM + live second opinion) via
 from __future__ import annotations
 
 import json
+import os
 import tempfile
 from dataclasses import asdict
 from pathlib import Path
@@ -42,6 +43,7 @@ from agentic_genomics.agents.variant_interpreter.showcase import (
 HERE = Path(__file__).resolve().parent
 SAMPLE_VCF = HERE / "data" / "showcase_hboc.vcf"
 EXAMPLE_SNAPSHOT = HERE / "data" / "example_evidence_snapshot.json"
+EXAMPLE_FULL_AGENT_RUN = HERE / "data" / "example_full_agent_run.json"
 
 st.set_page_config(
     page_title="GenomicsCopilot — live demo",
@@ -79,8 +81,13 @@ st.markdown(
 )
 st.divider()
 
-live_tab, example_tab, about_tab = st.tabs(
-    ["▶ Live demo", "📋 Recorded example (Reviewer2 second opinion)", "ℹ️ About the full agent"]
+live_tab, example_tab, full_agent_tab, about_tab = st.tabs(
+    [
+        "▶ Live demo",
+        "📋 Recorded example (Reviewer2 second opinion)",
+        "🧠 Recorded example (full agentic run)",
+        "ℹ️ About the full agent",
+    ]
 )
 
 # --------------------------------------------------------------------------- #
@@ -111,13 +118,14 @@ with live_tab:
     run = st.button("Run GenomicsCopilot", type="primary")
 
     if run:
+        uploaded_vcf_path: str | None = None
         if use_sample:
             vcf_path: str | None = str(SAMPLE_VCF)
         elif uploaded is not None:
             tmp = tempfile.NamedTemporaryFile(delete=False, suffix=".vcf")
             tmp.write(uploaded.getvalue())
             tmp.close()
-            vcf_path = tmp.name
+            vcf_path = uploaded_vcf_path = tmp.name
         else:
             vcf_path = None
 
@@ -126,13 +134,24 @@ with live_tab:
             st.stop()
 
         hpo_terms = [t.strip() for t in hpo_input.split(",") if t.strip()]
-        with st.spinner("Querying MyVariant.info + JAX HPO live…"):
-            variants = run_deterministic_pipeline(vcf_path, hpo_terms)
-            cards = to_cards(variants)
+        try:
+            with st.spinner("Querying MyVariant.info + JAX HPO live…"):
+                variants = run_deterministic_pipeline(vcf_path, hpo_terms)
+                cards = to_cards(variants)
+        finally:
+            # Only the sample-uploaded path is ours to delete -- the bundled
+            # sample VCF is a repo asset, not a temp file.
+            if uploaded_vcf_path:
+                Path(uploaded_vcf_path).unlink(missing_ok=True)
 
-        chart_path = Path(tempfile.mkstemp(suffix=".png")[1])
-        render_chart(cards, chart_path)
-        st.image(str(chart_path), use_container_width=True)
+        chart_fd, chart_path_str = tempfile.mkstemp(suffix=".png")
+        os.close(chart_fd)  # render_chart writes via its own path, not this fd
+        chart_path = Path(chart_path_str)
+        try:
+            render_chart(cards, chart_path)
+            st.image(chart_path.read_bytes(), use_container_width=True)
+        finally:
+            chart_path.unlink(missing_ok=True)
 
         for card in cards:
             with st.container(border=True):
@@ -170,12 +189,15 @@ with live_tab:
 with example_tab:
     st.markdown(
         "The full agent also calls **Reviewer2** — a separately built, independent "
-        "ACMG engine — live over the **Model Context Protocol**, as a genuine second "
-        "opinion on every variant. Reviewer2 is a sibling repo, not published as a "
-        "package, so it isn't reachable from this public Space. What follows is a "
+        "ACMG engine — live over the **Model Context Protocol**, as a second opinion "
+        "on every variant. Reviewer2 is a sibling repo, not published as a package, "
+        "so it isn't reachable from this public deployment. What follows is a "
         "**real, previously captured run** (not fabricated, not this demo re-running) "
-        "from an environment where Reviewer2 was checked out locally — including one "
-        "genuine disagreement the two independently-built engines reached on their own."
+        "from an environment where Reviewer2 was checked out locally. Its evidence for "
+        "this run came from a fixture file, not a separate live lookup — but its "
+        "combining-rule logic and gene list are independently written code, and the "
+        "disagreement below is a genuine classification Reviewer2's own code reached, "
+        "not a live evidence round trip."
     )
     example_cards = json.loads(EXAMPLE_SNAPSHOT.read_text(encoding="utf-8"))
     for card in example_cards:
@@ -201,6 +223,52 @@ with example_tab:
                     )
             with st.expander("🔍 View raw evidence (the audit trail behind this call)"):
                 st.json(card)
+
+# --------------------------------------------------------------------------- #
+# Recorded example — real LLM narrative + critic fact-check
+# --------------------------------------------------------------------------- #
+with full_agent_tab:
+    if EXAMPLE_FULL_AGENT_RUN.exists():
+        st.markdown(
+            "The full agent's two LLM steps, ranking + narrative synthesis, then a "
+            "second Claude pass that fact-checks that narrative against the raw "
+            "evidence, aren't run live on this public page (see **About the full "
+            "agent** for why). What follows is a **real, previously captured run** "
+            "against the same bundled panel, generated by "
+            "`scripts/generate_full_agent_example.py` — not fabricated, not "
+            "paraphrased."
+        )
+        full_run = json.loads(EXAMPLE_FULL_AGENT_RUN.read_text(encoding="utf-8"))
+
+        st.subheader("Narrative (Claude)")
+        st.markdown(full_run.get("report_markdown") or "_(no narrative captured)_")
+
+        critic = full_run.get("critic_review")
+        st.subheader("Critic fact-check (a second Claude pass)")
+        if critic:
+            verdict = critic.get("verdict", "unknown")
+            verdict_display = {
+                "supported": ("✓ Supported", "success"),
+                "partially_supported": ("~ Partially supported", "warning"),
+                "unsupported": ("⚠ Unsupported", "error"),
+            }.get(verdict, (verdict, "info"))
+            getattr(st, verdict_display[1])(f"**Verdict: {verdict_display[0]}**")
+            if critic.get("summary"):
+                st.caption(critic["summary"])
+            for flag in critic.get("flags", []):
+                with st.container(border=True):
+                    st.markdown(f"**Claim:** {flag.get('claim', '')}")
+                    st.caption(f"Concern: {flag.get('concern', '')}")
+                    if flag.get("suggestion"):
+                        st.caption(f"Suggestion: {flag['suggestion']}")
+        else:
+            st.info("No critic flags were raised in this captured run.")
+    else:
+        st.info(
+            "No full-agentic-run example has been captured yet. Run "
+            "`python scripts/generate_full_agent_example.py` locally with "
+            "`ANTHROPIC_API_KEY` set to generate one, then redeploy."
+        )
 
 # --------------------------------------------------------------------------- #
 # About

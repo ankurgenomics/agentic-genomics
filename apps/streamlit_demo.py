@@ -55,30 +55,35 @@ with st.sidebar:
     run_button = st.button("Run GenomicsCopilot", type="primary", disabled=not api_key_set)
 
 
-def _resolve_vcf_path() -> str | None:
+def _resolve_vcf_path() -> tuple[str | None, bool]:
+    """Returns (path, is_temp_file) -- callers must clean up when is_temp_file is True."""
     if use_sample and sample_vcf_path.exists():
-        return str(sample_vcf_path)
+        return str(sample_vcf_path), False
     if uploaded is not None:
         tmp = tempfile.NamedTemporaryFile(delete=False, suffix=".vcf")
         tmp.write(uploaded.getvalue())
         tmp.close()
-        return tmp.name
-    return None
+        return tmp.name, True
+    return None, False
 
 
 if run_button:
-    vcf_path = _resolve_vcf_path()
+    vcf_path, vcf_is_temp = _resolve_vcf_path()
     if not vcf_path:
         st.warning("Please provide a VCF (upload one or enable the demo VCF).")
         st.stop()
 
     hpo_terms = [t.strip() for t in hpo_input.split(",") if t.strip()]
-    with st.spinner("Running GenomicsCopilot…"):
-        state = run_variant_interpreter(
-            vcf_path=vcf_path,
-            hpo_terms=hpo_terms,
-            max_variants=max_variants,
-        )
+    try:
+        with st.spinner("Running GenomicsCopilot…"):
+            state = run_variant_interpreter(
+                vcf_path=vcf_path,
+                hpo_terms=hpo_terms,
+                max_variants=max_variants,
+            )
+    finally:
+        if vcf_is_temp:
+            Path(vcf_path).unlink(missing_ok=True)
 
     left, right = st.columns([2, 1])
 

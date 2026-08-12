@@ -39,11 +39,22 @@ def parse_vcf(vcf_path: str | Path, max_variants: int = 50) -> list[Variant]:
             csq_header = [x.strip() for x in raw.split("|")]
 
     variants: list[Variant] = []
+    # The max_variants cap below only fires once a record is *kept* -- a VCF
+    # where every record is filtered out (non-PASS, or no ALT) would
+    # otherwise be scanned in full with no bound at all, which on the public
+    # demo means an uploaded file with no PASS records ties up the shared
+    # host for as long as parsing takes. Bound total records *scanned* too,
+    # generously, so ordinary sparse-PASS files still parse in full.
+    max_records_scanned = max(max_variants * 200, 10_000)
+    records_scanned = 0
     # Iterate records directly rather than via ``vcf.fetch()``: fetch requires
     # a tabix/CSI index (only available for bgzipped VCFs), and on newer
     # pysam/htslib it raises ``ValueError: Firing event 10`` for plain text
     # VCFs. Direct iteration works for both plain and bgzipped files.
     for rec in vcf:
+        records_scanned += 1
+        if records_scanned > max_records_scanned:
+            return variants
         if rec.alts is None:
             continue
         # Skip records that failed a caller's quality filters (e.g. LowQual,

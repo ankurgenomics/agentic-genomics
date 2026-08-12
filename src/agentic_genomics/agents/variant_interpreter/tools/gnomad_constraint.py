@@ -35,8 +35,8 @@ GNOMAD_API_URL = "https://gnomad.broadinstitute.org/api"
 TIMEOUT = 15.0
 
 _QUERY = """
-{
-  gene(gene_symbol: "%s", reference_genome: GRCh38) {
+query GeneConstraint($geneSymbol: String!) {
+  gene(gene_symbol: $geneSymbol, reference_genome: GRCh38) {
     gnomad_constraint { pli oe_lof_upper }
   }
 }
@@ -45,11 +45,18 @@ _QUERY = """
 
 @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=1, max=8))
 def _fetch_constraint(gene_symbol: str) -> dict | None:
-    """Return ``{"pli": float, "loeuf": float}`` for a gene, or None if unavailable."""
+    """Return ``{"pli": float, "loeuf": float}`` for a gene, or None if unavailable.
+
+    ``gene_symbol`` is passed as a GraphQL query *variable*, never interpolated
+    into the query string -- it ultimately originates from an uploaded VCF's
+    VEP ``SYMBOL`` field with no validation upstream, so string-formatting it
+    directly into the query would let a crafted gene symbol break out of the
+    string literal and inject arbitrary GraphQL into this request.
+    """
     with httpx.Client(timeout=TIMEOUT) as client:
         resp = client.post(
             GNOMAD_API_URL,
-            json={"query": _QUERY % gene_symbol},
+            json={"query": _QUERY, "variables": {"geneSymbol": gene_symbol}},
             headers={"Content-Type": "application/json"},
         )
         if resp.status_code == 404:
